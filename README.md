@@ -1,30 +1,17 @@
 # Waymark
 
-Waymark is a full-stack project kept in **one Git repository** (a monorepo).
+Waymark is an accessible tourism and discovery application, initially focused on Sydney.
 
-That means frontend and backend live together, but they are **folders**, not separate Git repos.
+The main purpose is to help users:
 
-```text
-waymark/
-  frontend/   # client: HTML, CSS, JavaScript (or React later)
-  backend/    # server: API, database, authentication
-```
+- Discover tourist attractions and other interesting places.
+- Understand accessibility before visiting.
+- Filter places according to accessibility needs.
+- View accessibility information such as wheelchair access, lifts, accessible toilets, stairs, and other relevant features.
+- See when accessibility information was last verified.
+- Contribute accessibility updates and reports.
+- Eventually see accessibility information related to getting to a destination.
 
-## Why this structure?
+## Tech stack
 
-- One `git clone` gives you the whole product.
-- One pull request can change the UI and the API together.
-- You avoid nested `.git` folders, which make Git skip files or track a pointer instead of real code.
-
-## Folders
-
-- `frontend/` — what the user sees in the browser
-- `backend/` — the server that stores data and answers API requests
-
-The old standalone repo `waymark_frontend` still exists on GitHub as a previous copy. New work belongs in this repo.
-
-## Getting started
-
-1. Clone this repository.
-2. Work in `frontend/` for the client.
-3. Work in `backend/` for the server.
+To be documented when development starts.
