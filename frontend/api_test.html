@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Kerbside Map Test</title>
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+
+  <style>
+    #map {
+      height: 500px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Kerbside Map Test</h1>
+
+  <div id="map"></div>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  ></script>
+
+  <script>
+    const map = L.map("map").setView(
+      [-33.8571, 151.2152],
+      14
+    );
+  
+    L.tileLayer(
+      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        attribution: "© OpenStreetMap contributors"
+      }
+    ).addTo(map);
+  
+    const token = "895e28c05119e4f2a799d4a61175aaf3";
+  
+    const url =
+      `https://accessibility-cloud-v2.freetls.fastly.net/place-infos.json` +
+      `?appToken=${token}` +
+      `&latitude=-33.8571` +
+      `&longitude=151.2152` +
+      `&accuracy=1500`;
+  
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+
+        const testPlaces = data.features.filter((place) => {
+  const name = place.properties?.name?.en?.toLowerCase() || "";
+
+  return (
+    name.includes("opera") ||
+    name.includes("museum") ||
+    name.includes("taronga")
+  );
+});
+
+console.log("TEST PLACES:");
+console.log(testPlaces);
+  
+        data.features.forEach((place) => {
+          const [lon, lat] = place.geometry.coordinates;
+  
+          const name =
+            place.properties?.name ||
+            "Unnamed place";
+  
+          const accessibility =
+            place.properties?.accessibility;
+  
+          L.marker([lat, lon])
+            .addTo(map)
+            .bindPopup(`
+              <strong>${name}</strong><br><br>
+              Accessibility data:
+              <pre>${JSON.stringify(accessibility, null, 2)}</pre>
+            `);
+        });
+      })
+      .catch((error) => {
+        console.error("Accessibility Cloud error:", error);
+      });
+  </script>
+</body>
+</html>
