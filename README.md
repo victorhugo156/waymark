@@ -11,7 +11,3 @@ The main purpose is to help users:
 - See when accessibility information was last verified.
 - Contribute accessibility updates and reports.
 - Eventually see accessibility information related to getting to a destination.
-
-## Tech stack
-
-To be documented when development starts.
