@@ -1,6 +1,7 @@
 # Nested leftover clone of the old standalone frontend repo
 waymark_frontend/
 
+
 # Dependencies
 node_modules/
 
@@ -14,8 +15,12 @@ __pycache__/
 venv/
 .venv/
 
+# Personal progress checklist (not part of the app)
+PROGRESS.md
+
 # OS and editors
 .DS_Store
 Thumbs.db
 .idea/
 .vscode/
+.cursor/
