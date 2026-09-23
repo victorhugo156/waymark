@@ -24,7 +24,7 @@ export const defaultTheme = {
     green: '#1F6B4A',
     rust: '#C45C26',
     red: '#B42318',
-    asphalt: '#5C6570',
+    asphalt: '##C8CDD2',
     fog: '#F3F3F3',
   },
   fonts: {

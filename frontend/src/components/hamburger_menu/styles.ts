@@ -23,6 +23,8 @@ top: 75px;
 right: 0;
 width: 125px;
 
+padding: 1rem;
+
 flex-direction: column;
 justify-content: center;
 align-items: center;
