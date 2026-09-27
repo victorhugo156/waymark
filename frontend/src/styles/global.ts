@@ -51,7 +51,8 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   button {
-    font: inherit;
+    font-family: inherit;
+    font-size: inherit;
     cursor: pointer;
   }
 
@@ -66,7 +67,8 @@ export const GlobalStyle = createGlobalStyle`
   textarea,
   select,
   button {
-    font: inherit;
+    font-family: inherit;
+    font-size: inherit;
   }
 
   :focus-visible {
