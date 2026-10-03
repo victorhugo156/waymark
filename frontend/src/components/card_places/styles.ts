@@ -10,6 +10,7 @@ border-radius: 1rem;
 border: 1px solid ${props => props.theme.colors.border};
 `
 
+
 export const ContainerImage = styled.div`
 display: flex;
 flex-direction: column;
@@ -63,6 +64,10 @@ color: ${props => props.theme.colors.mutedForeground};
 letter-spacing: 0.05em;
 
 text-transform: uppercase;
+
+@media (min-width: 768px) {
+  font-size: ${props => props.theme.fontSizes.sm};
+}
 `
 
 export const Rating = styled.span`
@@ -71,6 +76,10 @@ font-weight: ${props => props.theme.fontWeights.semibold};
 color: ${props => props.theme.colors.foreground};
 
 letter-spacing: 0.05em;
+
+@media (min-width: 768px) {
+  font-size: ${props => props.theme.fontSizes.sm};
+}
 
 `
 
@@ -90,6 +99,9 @@ color: ${props => props.theme.colors.foreground};
 line-height: 1.2;
 letter-spacing: 0.05em;
 
+@media (min-width: 768px) {
+  font-size: ${props => props.theme.fontSizes.xl};
+}
 
 `
 
@@ -100,6 +112,10 @@ font-weight: ${props => props.theme.fontWeights.regular};
 color: ${props => props.theme.colors.mutedForeground};
 
 letter-spacing: 0.05em;
+
+@media (min-width: 768px) {
+  font-size: ${props => props.theme.fontSizes.sm};
+}
 
 `
 

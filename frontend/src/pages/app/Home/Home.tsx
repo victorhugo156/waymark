@@ -37,6 +37,7 @@ import {
   Label,
 } from './styles'
 import { Input } from '@/components/inputs/input'
+import{useNavigate} from 'react-router-dom'
 
 
 const dataCards = [
@@ -84,9 +85,14 @@ const dataCards = [
 
 export function Home() {
 
+  const navigate = useNavigate()
   const [search, setSearch] = useState("")
   const [journey, setJourney] = useState("")
   const [destination, setDestination] = useState("")
+
+  function handleExplore() {
+    navigate('/explore')
+  }
   return (
     <Container>
       <HeroSection>
@@ -104,7 +110,7 @@ export function Home() {
 
           <ActionContainer>
             <InputSearch icon={MagnifyingGlassIcon} id="search" placeholder="Search for a place" type="text" value={search} name="search" autoComplete="off" onChange={(event) => setSearch(event.target.value)} />
-            <Button>Explore</Button>
+            <Button onClick={handleExplore}>Explore</Button>
           </ActionContainer>
         </HeroContent>
       </HeroSection>
