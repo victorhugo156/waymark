@@ -11,17 +11,19 @@ import {
   FooterContainer,
   FooterLogo,
 } from './styles'
-import logo from '../../assets/logo.webp'
-import logo_white from '../../assets/logo_white.webp'
-import { HamburgerMenu } from '../../components/hamburger_menu/hamburger_menu'
+import logo from '@/assets/logo.webp'
+import logo_white from '@/assets/logo_white.webp'
+import { HamburgerMenu } from '@/components/hamburger_menu/hamburger_menu'
 import { Logo, AddPlaceButton } from './styles'
-import { Button } from '../../components/ui/button'
+import { Button } from '@/components/ui/button'
 
 export function DefaultLayout() {
   return (
     <Container>
       <Header>
-        <Logo src={logo} alt="Logo" />
+        <Link to="/">
+          <Logo src={logo} alt="Logo" />
+        </Link>
 
         <NavDesktop>
           <Link to="/explore">Explore</Link>

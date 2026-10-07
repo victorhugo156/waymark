@@ -1,6 +1,6 @@
 import { SearchIcon, InputContainer } from './styles'
 import type { Icon } from '@phosphor-icons/react'
-import { Input } from '../inputs/input';
+import { Input } from '@/components/inputs/input'
 
 
 interface InputSearchProps {

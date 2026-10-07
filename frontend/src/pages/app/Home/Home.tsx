@@ -1,13 +1,13 @@
 import { Button } from '@/components/ui/button'
-import heroImage from '../../../assets/hero_banner_opera_house.webp'
-import { InputSearch } from '../../../components/input_search'
+import heroImage from '@/assets/hero_banner_opera_house.webp'
+import { InputSearch } from '@/components/input_search'
 import { MagnifyingGlassIcon } from '@phosphor-icons/react'
 import { useState } from 'react'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
-import { CardPlaces } from '../../../components/card_places'
+import { CardPlaces } from '@/components/card_places'
 
-import card_bondi from '../../../assets/card_bondi.webp'
-import card_opera_house from '../../../assets/card_opera_house.webp'
+import card_bondi from '@/assets/card_bondi.webp'
+import card_opera_house from '@/assets/card_opera_house.webp'
 
 import {
   Container,

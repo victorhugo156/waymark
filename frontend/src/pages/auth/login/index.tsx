@@ -11,9 +11,9 @@ import {
   TitleLogin,
   CreateAccount,
 } from './styles'
-import { Input } from '../../../components/inputs/input'
-import { Button } from '../../../components/ui/button'
-import logo from '../../../assets/logo_white.webp'
+import { Input } from '@/components/inputs/input'
+import { Button } from '@/components/ui/button'
+import logo from '@/assets/logo_white.webp'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 

@@ -1,7 +1,7 @@
 import { WheelchairIcon } from '@phosphor-icons/react'
-import { FeatureButton } from '../feature_button'
-import { VerifiedButton } from '../verified_button'
-import vertical_logo from '../../assets/vertical_logo.webp'
+import { FeatureButton } from '@/components/feature_button'
+import { VerifiedButton } from '@/components/verified_button'
+import vertical_logo from '@/assets/vertical_logo.webp'
 
 import {
     Container,

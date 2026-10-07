@@ -2,8 +2,8 @@ import { InputSearch } from "@/components/input_search";
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { CardPlaces } from "@/components/card_places";
-import card_bondi from '../../../assets/card_bondi.webp'
-import card_opera_house from '../../../assets/card_opera_house.webp'
+import card_bondi from '@/assets/card_bondi.webp'
+import card_opera_house from '@/assets/card_opera_house.webp'
 import {
   Main,
   Title,

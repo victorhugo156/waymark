@@ -12,10 +12,10 @@ import {
   CreateAccount,
   ContainerToggleGroupAccessibility,
 } from './styles'
-import { Input } from '../../../components/inputs/input'
-import { Button } from '../../../components/ui/button'
-import { ToggleGroup, ToggleGroupItem } from '../../../components/ui/toggle-group'
-import logo from '../../../assets/logo_white.webp'
+import { Input } from '@/components/inputs/input'
+import { Button } from '@/components/ui/button'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
+import logo from '@/assets/logo_white.webp'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
