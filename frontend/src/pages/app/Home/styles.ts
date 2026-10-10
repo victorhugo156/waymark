@@ -28,12 +28,16 @@ display: flex;
 `
 
 export const HeroImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 
-@media (min-width: 1024px) {
+
+/* @media (min-width: 1024px) {
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
+  } */
 
 `
 

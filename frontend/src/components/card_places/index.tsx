@@ -2,6 +2,7 @@ import { WheelchairIcon } from '@phosphor-icons/react'
 import { FeatureButton } from '@/components/feature_button'
 import { VerifiedButton } from '@/components/verified_button'
 import vertical_logo from '@/assets/vertical_logo.webp'
+import { Link } from 'react-router-dom'
 
 import {
     Container,
@@ -20,6 +21,7 @@ import {
 
 
 interface CardPlacesProps {
+    id: string;
     attraction_type: string;
     rating: number;
     image: string;
@@ -27,10 +29,13 @@ interface CardPlacesProps {
     description: string;
 }
 
-export function CardPlaces({ image, title, description, attraction_type, rating }: CardPlacesProps) {
+export function CardPlaces({ id, image, title, description, attraction_type, rating }: CardPlacesProps) {
     const hasImage = Boolean(image)
+
     return (
         <Container>
+            <Link to={`/places/${id}`}>
+            
             <ContainerImage>
             <Image
                 src={hasImage ? image : vertical_logo}
@@ -58,7 +63,7 @@ export function CardPlaces({ image, title, description, attraction_type, rating 
                 </CardInfo>
 
             </ContainerCardDescription>
-
+            </Link>
         </Container>
     )
 }

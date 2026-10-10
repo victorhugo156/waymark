@@ -5,6 +5,7 @@ import { Login } from './pages/auth/login'
 import { DefaultLayout } from './pages/_layouts/default'
 import { Signup } from './pages/auth/signup'
 import { Journey } from './pages/app/Journey'
+import { PlaceDetails } from './pages/app/Place_Details'
 
 export const routes = createBrowserRouter([
     {
@@ -14,7 +15,9 @@ export const routes = createBrowserRouter([
             { path: '/', element: <Home />,},
             { path: '/explore', element: <Explore />,},
             { path: '/journey', element: <Journey />,},
+            { path: '/places/:placeId', element: <PlaceDetails />,},
         ],
+
     },
     { path: '/sign-in', element: <Login />, },
     { path: '/sign-up', element: <Signup />, },

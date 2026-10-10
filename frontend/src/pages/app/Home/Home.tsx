@@ -140,6 +140,7 @@ export function Home() {
           {dataCards.map((card) => (
             <CardPlaces
               key={card.id}
+              id={card.id.toString()}
               image={card.image}
               attraction_type={card.attraction_type}
               rating={card.rating}
