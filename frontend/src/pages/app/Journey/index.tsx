@@ -26,7 +26,9 @@ export function Journey() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>, from: string) => {
         e.preventDefault();
 
-        const data = await getPlaces(from);
+        console.log('To:', to);
+
+        const data = await getPlaces(to);
 
         console.log(data);
     }
