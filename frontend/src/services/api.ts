@@ -1,5 +1,5 @@
 const URL_API = 'https://api.transport.nsw.gov.au/v1/tp/stop_finder';
-const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJxclA4YnpFSDFKd0Y2SDdmOE1JWm5pdUpOWjZveHJwS3dXM0VaZzNIQTFzIiwiaWF0IjoxNzg5NDI1OTM1fQ.M9f0Bx1gN7fexNAkL5FKP7o7j3FgiMPxyuH0GGrlpDY';
+const API_KEY = import.meta.env.VITE_TFNSW_API_KEY;
 
 export async function getPlaces(searchValue: string) {
   const url =
