@@ -32,6 +32,8 @@ align-items: center;
 transform: ${({ $isOpen }) => ($isOpen ? 'translateX(0)' : 'translateX(100%)')};
 
 transition: transform 0.3s ease-in-out;
+
+z-index: 2;
 `
 export const NavItem = styled.li`
 padding-top: 10px;

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ListIcon, XIcon } from '@phosphor-icons/react'
 import { HamburgerMenuButton, NavMenu, NavItem } from './styles'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export function HamburgerMenu() {
 
@@ -11,6 +11,14 @@ export function HamburgerMenu() {
         console.log('toggleMenu');
         setIsOpen(!isOpen);
     }
+
+    useEffect(() => {
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+
+        return () => {
+            document.body.style.overflow = '';
+        }
+    }, [isOpen]);
 
     return (
         <>
