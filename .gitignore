@@ -29,3 +29,6 @@ Thumbs.db
 .idea/
 .vscode/
 .cursor/
+
+# Impeccable local agent config
+.agents/skills/impeccable/agents/
