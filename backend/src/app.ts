@@ -4,6 +4,8 @@ import mongoose from 'mongoose'
 
 import authRouter from './routes/auth'
 import { AuthMiddleware } from './middlewares/authMiddleware'
+import { error } from 'node:console'
+import errorHandler from './middlewares/errorHandler'
 
 const app = express()
 const port = Number(process.env.PORT) || 8000
@@ -31,9 +33,10 @@ app.use(cors(
   }
 ))
 app.use(express.json())
-
-app.use('/', AuthMiddleware)
 app.use('/auth', authRouter)
+app.use('/', AuthMiddleware)
+
+app.use(errorHandler)
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)
