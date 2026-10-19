@@ -4,7 +4,26 @@ import {compare, hash, genSalt} from 'bcryptjs'
 import { User } from "../models/users"
 import jwt from "jsonwebtoken"
 import UnauthorisedError from "../errors/Unauthorised"
+import z from "zod"
+import BadRequestError from "../errors/BadRequestError"
 
+
+export const signupSchema = z.object({
+    username: z.string().trim().min(3).max(30),
+  
+    email: z.email(),
+  
+    password: z.string().min(8).max(30),
+  
+    accessibilityPreferences: z.array(
+      z.enum([
+        'wheelchair_transport',
+        'avoid_stairs',
+        'hearing_information',
+        'quiet_environment',
+      ])
+    ).default([]),
+  });
 
 export async function signin(req: Request, res: Response) {
 
@@ -33,13 +52,24 @@ export async function signin(req: Request, res: Response) {
 }
 
 export async function signup(req: Request, res: Response, next: NextFunction) {
+
+    const result = signupSchema.safeParse(req.body)
+
+    if(!result.success){
+        throw new BadRequestError('Invalid signup data')
+    }
+
+    
     try {
-        const { username, email, password } = req.body
+        const {username, password, email, accessibilityPreferences } = result.data
         
         const salt = await genSalt(10)
         const hashedPassword = await hash(password, salt)
 
-        const userCreated = await User.create({ username, email, hashedPassword})
+        const userCreated = await User.create({ username, email, hashedPassword, accessibilityPreferences})
+
+        console.log(userCreated)
+        
     } catch (error) {
         next(error)
     }
