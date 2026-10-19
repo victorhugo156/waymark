@@ -1,19 +1,12 @@
 import { InputField } from './styles'
+import type { ComponentPropsWithRef } from 'react';
 
-interface InputProps {
-    id: string;
-    placeholder: string;
-    type: string;
-    value: string;
-    name: string;
-    autoComplete: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
+type InputProps = ComponentPropsWithRef<"input">
 
-export function Input({id, placeholder, type, value, name, autoComplete, onChange }: InputProps) {
+export function Input(props: InputProps) {
   return (
     <>
-        <InputField id={id} type={type} value={value} placeholder={placeholder} name={name} autoComplete={autoComplete} onChange={onChange} />
+        <InputField {...props}/>
     </>
   )
 }

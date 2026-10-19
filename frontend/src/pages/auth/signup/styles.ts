@@ -120,6 +120,12 @@ gap: 1rem;
 
 `
 
+export const Field = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`
+
 export const Label = styled.label`
 
 color: ${props => props.theme.colors.foreground};
@@ -142,4 +148,9 @@ width: 100%;
 display: flex;
 flex-wrap: wrap;
 gap: 1rem;
+`
+
+export const Errors = styled.p`
+color: ${props => props.theme.colors.red};
+font-size: ${props => props.theme.fontSizes.xs};
 `
