@@ -4,6 +4,11 @@ const userSchema = new mongoose.Schema({
   username: { type: String, required: true, minlength: 3, maxlength: 20 },
   email: { type: String, required: true, unique: true },
   hashedPassword: { type: String, required: true, select: false },
+  accessibilityPreferences: { 
+    type: [String], 
+    enum: ['wheelchair_transport', 'avoid_stairs', 'hearing_information', 'quiet_environment'],
+    default: [] 
+  },
 
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
