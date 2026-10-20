@@ -5,7 +5,7 @@ export const BASE_URL = "http://localhost:8000";
 
 export const signup = async (data: SignUpFormSchema )=> {
 
-    return fetch(`${BASE_URL}/signup`, {
+    return fetch(`${BASE_URL}/auth/signup`, {
         method: "POST",
         headers: {
           Accept: "application/json",
