@@ -2,6 +2,7 @@ import {
   Container,
   Header,
   ContainerTitle,
+  SpinnerContainer,
   ContainerForm,
   Logo,
   Title,
@@ -18,11 +19,14 @@ import { Input } from '@/components/inputs/input'
 import { Button } from '@/components/ui/button'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import logo from '@/assets/logo_white.webp'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { z } from "zod"
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signup } from '@/services/auth'
+import { useState } from 'react'
+import Spinner from '@/components/spinner'
+import { ApiError } from '@/errors/ApiError'
 
 
 const signupFormSchema = z.object({
@@ -44,7 +48,10 @@ export type SignUpFormSchema = z.infer<typeof signupFormSchema>;
 
 export function Signup() {
 
-  const { register, handleSubmit, control, formState: { errors } } = useForm<SignUpFormSchema>({
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate()
+
+  const { register, handleSubmit, control, setError, formState: { errors } } = useForm<SignUpFormSchema>({
     resolver: zodResolver(signupFormSchema),
     defaultValues: {
       username: "",
@@ -56,14 +63,26 @@ export function Signup() {
 
 
   async function handleSignup(data: SignUpFormSchema) {
+    setIsLoading(true)
+    try {
 
-    try{
-      const result = await signup(data)
+      await signup(data)
+      navigate('/sign-in')
 
-      console.log(result);
-
-    }catch(error){
-      console.error('Signup failed:', error)
+    } catch (error: any) {
+      if (error instanceof ApiError && error.status === 409) {
+        setError('email', {
+          type: 'server',
+          message: 'This email is already registered. Try signing in.',
+        });
+      } else {
+        setError('root.server', {
+          type: 'server',
+          message: 'We could not create your account. Please try again.',
+        });
+      }
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -79,7 +98,7 @@ export function Signup() {
       </Header>
 
       <ContainerForm>
-        <Form onSubmit={handleSubmit(handleSignup, (errors) => console.log('Validation errors:', errors))}>
+        <Form onSubmit={handleSubmit(handleSignup)}>
           <TitleLogin>Create account</TitleLogin>
 
           <Field>
@@ -91,7 +110,9 @@ export function Signup() {
           <Field>
             <Label htmlFor="email">Email</Label>
             <Input id="email" {...register('email')} placeholder="Email" type="email" autoComplete="email" />
-            {errors.email && <Errors>{errors.email.message}</Errors>}
+            {errors.email && <Errors id="email-error" role="alert">
+              {errors.email.message}
+            </Errors>}
           </Field>
 
           <Field>
@@ -133,6 +154,7 @@ export function Signup() {
         </Form>
         <CreateAccount><Link to="/sign-in">Have an account? Login into my account</Link></CreateAccount>
       </ContainerForm>
+      {isLoading && <SpinnerContainer><Spinner label="Signing you up..." /></SpinnerContainer>}
     </Container>
   )
 }

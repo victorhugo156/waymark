@@ -87,6 +87,19 @@ export const TitleLogin = styled(Title)`
 color: ${props => props.theme.colors.foreground};
 `
 
+export const SpinnerContainer = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgba(255, 255, 255, 0.8);
+`
+
 export const ContainerForm = styled.div`
 min-width: 0;
 display: flex;

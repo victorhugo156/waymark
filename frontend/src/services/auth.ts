@@ -5,7 +5,7 @@ export const BASE_URL = "http://localhost:8000";
 
 export const signup = async (data: SignUpFormSchema )=> {
 
-    return fetch(`${BASE_URL}/auth/signup`, {
+    const response = await fetch(`${BASE_URL}/auth/signup`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -13,11 +13,13 @@ export const signup = async (data: SignUpFormSchema )=> {
         },
         body: JSON.stringify(data),
       })
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          }else{
-            return console.log("Error")
-          }
-        })
+
+    const result = await response.json();
+
+      if(!response.ok){
+        throw new Error(result.message || 'Signup failed')
+      }
+
+      return result
+
 }
