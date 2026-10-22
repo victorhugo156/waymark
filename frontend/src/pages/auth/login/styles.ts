@@ -139,3 +139,21 @@ font-size: ${props => props.theme.fontSizes.base};
 font-weight: ${props => props.theme.fontWeights.regular};
 
 `
+
+export const Errors = styled.p`
+color: ${props => props.theme.colors.red};
+font-size: ${props => props.theme.fontSizes.xs};
+`
+
+export const SpinnerContainer = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgba(255, 255, 255, 0.8);
+`

@@ -103,8 +103,8 @@ export function Signup() {
 
           <Field>
             <Label htmlFor="name">Name</Label>
-            <Input id="name" {...register('username', { required: "Campo Senha é obrigatória" })} placeholder="User Name" type="text" autoComplete="name" />
-            {errors.username && <Errors>{errors.username.message}</Errors>}
+            <Input id="name" {...register('username')} placeholder="User Name" type="text" autoComplete="name" />
+            {errors.username && <Errors role="alert">{errors.username.message}</Errors>}
           </Field>
 
           <Field>
@@ -118,7 +118,7 @@ export function Signup() {
           <Field>
             <Label htmlFor="password">Password</Label>
             <Input id="password" {...register('password')} placeholder="Password" type="password" autoComplete="new-password" />
-            {errors.password && <Errors>{errors.password.message}</Errors>}
+            {errors.password && <Errors role="alert">{errors.password.message}</Errors>}
           </Field>
 
           <p id="access-preferences">Choose accessibility preferences — optional. You can skip this and update later.</p>
@@ -152,6 +152,11 @@ export function Signup() {
 
           <Button type='submit' variant="default">Create account</Button>
         </Form>
+        {errors.root?.server && (
+          <Errors role="alert">
+            {errors.root.server.message}
+          </Errors>
+        )}
         <CreateAccount><Link to="/sign-in">Have an account? Login into my account</Link></CreateAccount>
       </ContainerForm>
       {isLoading && <SpinnerContainer><Spinner label="Signing you up..." /></SpinnerContainer>}
