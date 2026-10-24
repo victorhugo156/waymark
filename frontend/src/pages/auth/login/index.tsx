@@ -54,15 +54,15 @@ export function Login() {
       navigate('/')
 
     } catch (error: any) {
-      if (error instanceof ApiError && error.status === 409) {
+      if (error instanceof ApiError && error.status === 401) {
         setError('email', {
           type: 'server',
-          message: 'This email is already registered. Try signing in.',
+          message: 'Invalid email or password',
         });
       } else {
         setError('root.server', {
           type: 'server',
-          message: 'We could not create your account. Please try again.',
+          message: 'We could not login you into your account. Please try again.',
         });
       }
     } finally {
@@ -96,6 +96,11 @@ export function Login() {
 
           <Button variant="default">Login</Button>
         </Form>
+        {errors.root?.server && (
+          <Errors role="alert">
+            {errors.root.server.message}
+          </Errors>
+        )}
         <CreateAccount><Link to="/sign-up">New here? Create an account</Link></CreateAccount>
       </ContainerForm>
       {isLoading && <SpinnerContainer><Spinner label="Signin you up..." /></SpinnerContainer>}
