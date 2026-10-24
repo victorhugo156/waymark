@@ -9,7 +9,10 @@ const userSchema = new mongoose.Schema({
     enum: ['wheelchair_transport', 'avoid_stairs', 'hearing_information', 'quiet_environment'],
     default: [] 
   },
-
+  refreshToken: {
+    type: String,
+    select: false,
+  },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 })
