@@ -22,8 +22,6 @@ export const signin = async (data: SigninFormSchema )=> {
       throw new ApiError(result.message || 'Signin failed', response.status)
     }
 
-    console.log(result)
-
     return result
 }
 
