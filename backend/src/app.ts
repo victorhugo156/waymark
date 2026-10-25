@@ -6,17 +6,19 @@ import authRouter from './routes/auth'
 import { AuthMiddleware } from './middlewares/authMiddleware'
 import { error } from 'node:console'
 import errorHandler from './middlewares/errorHandler'
+import cookieParser from 'cookie-parser'
+import UnauthorisedError from './errors/Unauthorised'
 
 const app = express()
 const port = Number(process.env.PORT) || 8000
 
 
 async function connectToMongoDB() {
-  try {
-    await mongoose.connect(process.env.MONGO_URI || '')
-  } catch (err) {
-    console.log(`Error connecting to MongoDB: ${err}`)
+
+  if(!process.env.MONGO_URI){
+    throw new UnauthorisedError("❌ Invalid or missing environment configuration")
   }
+    await mongoose.connect(process.env.MONGO_URI)
 }
 
 connectToMongoDB()
@@ -34,6 +36,8 @@ app.use(cors(
   }
 ))
 app.use(express.json())
+app.use(cookieParser())
+
 app.use('/auth', authRouter)
 app.use('/', AuthMiddleware)
 
