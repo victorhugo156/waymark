@@ -23,12 +23,14 @@ venv/
 # Personal progress checklist (not part of the app)
 PROGRESS.md
 
-# OS and editors
+# OS and editors — local only, do not push to GitHub
 .DS_Store
 Thumbs.db
 .idea/
 .vscode/
 .cursor/
+.cursor/rules/
 
-# Impeccable local agent config
-.agents/skills/impeccable/agents/
+# Local Cursor / agent files
+.agents/
+skills-lock.json

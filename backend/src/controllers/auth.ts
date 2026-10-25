@@ -170,7 +170,7 @@ export async function refreshedToken(req: Request, res: Response, next: NextFunc
   
       return res.status(200).json({ token });
     } catch (error) {
-        if ( error instanceof JsonWebTokenError || error instanceof TokenExpiredError) {
+        if ( error instanceof JsonWebTokenError) {
             return next(new UnauthorisedError('Unauthorized'));
           }
         
