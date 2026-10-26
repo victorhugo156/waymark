@@ -16,14 +16,14 @@ import {
 import { Input } from '@/components/inputs/input'
 import { Button } from '@/components/ui/button'
 import logo from '@/assets/logo_white.webp'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 import { ApiError } from '@/errors/ApiError'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { signin } from '@/services/auth'
 import Spinner from '@/components/spinner'
+import { AuthContext } from '@/contexts/AuthContext'
 
 
 const signinFormSchema = z.object({
@@ -36,6 +36,7 @@ export type SigninFormSchema = z.infer<typeof signinFormSchema>;
 export function Login() {
 
   const [isLoading, setIsLoading] = useState(false);
+  const { ContextSignin } = useContext(AuthContext)
   const navigate = useNavigate()
 
   const { register, handleSubmit, setError, formState: { errors } } = useForm<SigninFormSchema>({
@@ -50,7 +51,7 @@ export function Login() {
     setIsLoading(true)
     try {
 
-      await signin(data)
+      await ContextSignin(data)
       navigate('/')
 
     } catch (error: any) {
