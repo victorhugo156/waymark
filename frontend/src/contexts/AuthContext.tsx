@@ -60,6 +60,12 @@ export function AuthContextProvider({ children }: AuthProvider) {
         void restoreSession()
     }, [])
 
+    useEffect(()=>{
+
+        console.log('Authentication:', isAuthenticated)
+
+    },[isAuthenticated])
+
     return (
         <AuthContext.Provider value={{ user, isAuthLoading, isAuthenticated, ContextSignin }}>
             {children}

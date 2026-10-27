@@ -1,13 +1,9 @@
-import { useContext } from "react"
 import type {SignUpFormSchema  } from "../pages/auth/signup"
 import type {SigninFormSchema  } from "../pages/auth/login"
 import { ApiError } from "../errors/ApiError"
-import { AuthContext } from '@/contexts/AuthContext'
 
 
 export const BASE_URL = "http://localhost:8000";
-
-
 
 export const signin = async (data: SigninFormSchema )=> {
 
