@@ -4,7 +4,6 @@ import mongoose from 'mongoose'
 
 import authRouter from './routes/auth'
 import { AuthMiddleware } from './middlewares/authMiddleware'
-import { error } from 'node:console'
 import errorHandler from './middlewares/errorHandler'
 import cookieParser from 'cookie-parser'
 import UnauthorisedError from './errors/Unauthorised'
