@@ -4,10 +4,10 @@ import mongoose from 'mongoose'
 
 import authRouter from './routes/auth'
 import { AuthMiddleware } from './middlewares/authMiddleware'
-import { error } from 'node:console'
 import errorHandler from './middlewares/errorHandler'
 import cookieParser from 'cookie-parser'
 import UnauthorisedError from './errors/Unauthorised'
+import placesRouter from './routes/places'
 
 const app = express()
 const port = Number(process.env.PORT) || 8000
@@ -39,6 +39,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use('/auth', authRouter)
+app.use("/places", placesRouter)
 app.use('/', AuthMiddleware)
 
 app.use(errorHandler)

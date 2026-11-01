@@ -15,6 +15,13 @@ backend/.env
 # Backend build output
 backend/dist/
 
+# Local DB seed scripts (keep off GitHub)
+backend/src/scripts/
+
+# Local seed photos for DB population (keep favicon only)
+frontend/public/*
+!frontend/public/waymark_favicon.webp
+
 # Python
 __pycache__/
 venv/

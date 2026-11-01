@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import heroImage from '@/assets/hero_banner_opera_house.webp'
 import { InputSearch } from '@/components/input_search'
 import { MagnifyingGlassIcon } from '@phosphor-icons/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { CardPlaces } from '@/components/card_places'
 
@@ -38,6 +38,8 @@ import {
 } from './styles'
 import { Input } from '@/components/inputs/input'
 import{useNavigate} from 'react-router-dom'
+import { getFeaturedPlaces } from '@/services/places'
+import { ApiError } from '@/errors/ApiError'
 
 
 const dataCards = [
@@ -83,6 +85,21 @@ const dataCards = [
   },
 ]
 
+interface Place {
+  _id: string
+  name: string
+  description: string
+  category: string
+  imageUrl: string
+  featured: boolean
+  accessibility: {
+    wheelchairEntrance: string,
+    accessibleToilet: string,
+    stepFreeAccess: string,
+    accessibilityVerified: boolean
+}
+}
+
 export function Home() {
 
   const navigate = useNavigate()
@@ -90,9 +107,32 @@ export function Home() {
   const [journey, setJourney] = useState("")
   const [destination, setDestination] = useState("")
 
+  const [places, setPlaces] = useState<Place[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
   function handleExplore() {
     navigate('/explore')
   }
+
+  useEffect(()=>{
+
+    async function loadFeaturedPlaces(){
+      try {
+        const response = await getFeaturedPlaces()
+        setPlaces(response)
+      
+      } catch (error) {
+        setError('Unable to load featured places.')
+        
+      }finally{
+        setIsLoading(false)
+      }
+    }
+
+    void loadFeaturedPlaces()
+
+  }, [])
   return (
     <Container>
       <HeroSection>
@@ -131,21 +171,21 @@ export function Home() {
 
         <PlacesSection>
           <ContainerPlacesTitle>
-            <PlacesTitle>Places matching your preferences</PlacesTitle>
+            <PlacesTitle>Featured places in Sydney</PlacesTitle>
             <PlacesDescription>Based on the accessibility preferences you selected.</PlacesDescription>
           </ContainerPlacesTitle>
         </PlacesSection>
 
         <Cards>
-          {dataCards.map((card) => (
+          {places.map((place) => (
             <CardPlaces
-              key={card.id}
-              id={card.id.toString()}
-              image={card.image}
-              attraction_type={card.attraction_type}
-              rating={card.rating}
-              title={card.title}
-              description={card.description}
+              key={place._id}
+              id={place._id}
+              image={place.imageUrl}
+              attraction_type={place.category}
+              title={place.name}
+              description={place.description}
+              accessibility={place.accessibility}
             />
           ))}
         </Cards>
