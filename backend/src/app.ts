@@ -3,6 +3,7 @@ import cors from 'cors'
 import mongoose from 'mongoose'
 
 import authRouter from './routes/auth'
+import usersRouter from './routes/users'
 import { AuthMiddleware } from './middlewares/authMiddleware'
 import errorHandler from './middlewares/errorHandler'
 import cookieParser from 'cookie-parser'
@@ -40,6 +41,7 @@ app.use(cookieParser())
 
 app.use('/auth', authRouter)
 app.use("/places", placesRouter)
+app.use('/users', usersRouter)
 app.use('/', AuthMiddleware)
 
 app.use(errorHandler)
