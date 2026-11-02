@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express"
-import NotFoundError from "../errors/NotFoundError";
+import { getGooglePlaceDetails } from "../services/googlePlaces";
 import { Place } from "../models/places";
 
 
@@ -33,6 +33,23 @@ export async function getPlaceById(req: Request, res: Response, next: NextFuncti
     try {
 
         const place = await Place.findById(req.params.id)
+
+        if(!place){
+            return res.status(404).json({
+                message: 'Place not found'
+              })
+        }
+
+        if (!place.googlePlaceId) {
+            return res.status(200).json(place)
+          }
+
+        const googleDetails = await getGooglePlaceDetails(place.googlePlaceId)
+
+        return res.status(200).json({
+            ...place.toObject(),
+            accessibility: googleDetails.accessibility,
+          })
 
     } catch (error) {
         next(error)
