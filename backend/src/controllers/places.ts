@@ -28,3 +28,16 @@ export async function getPlaces(req: Request, res: Response, next: NextFunction)
 
 
 }
+
+export async function getPlaceById(req: Request, res: Response, next: NextFunction) {
+    try {
+
+        const place = await Place.findById(req.params.id)
+
+    } catch (error) {
+        next(error)
+    }
+
+
+}
+

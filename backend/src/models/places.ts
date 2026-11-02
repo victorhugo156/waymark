@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 
 const placesSchema = new mongoose.Schema({
+    googlePlaceId: { type: String, default: null,},
     name: { type: String, required: true, trim: true },
     description: { type: String, required: true },
     imageUrl: { type: String, default: '',},
@@ -13,23 +14,29 @@ const placesSchema = new mongoose.Schema({
         longitude: { type: Number, required: true, min: -180, max: 180, },
     },
     accessibility: {
-        wheelchairEntrance: {
+        wheelchairAccessibleEntrance: {
             type: String,
             enum: ['yes', 'no', 'unknown'],
             default: 'unknown',
         },
-        accessibleToilet: {
+        wheelchairAccessibleParking: {
             type: String,
             enum: ['yes', 'no', 'unknown'],
             default: 'unknown',
         },
-        stepFreeAccess: {
+        wheelchairAccessibleSeating: {
+            type: String,
+            enum: ['yes', 'no', 'unknown'],
+            default: 'unknown',
+        },
+        wheelchairAccessibleRestroom: {
             type: String,
             enum: ['yes', 'no', 'unknown'],
             default: 'unknown',
         },
         accessibilitySource: {
             type: String,
+            enum: ['google_places', 'community', 'manual', 'unknown'],
             default: 'unknown',
         },
 
