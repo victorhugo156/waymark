@@ -2,12 +2,20 @@ import styled from "styled-components";
 
 export const Container = styled.div`
 width: 100%;
+min-width: 0;
 
 display: flex;
 flex-direction: column;
 
 border-radius: 1rem;
 border: 1px solid ${props => props.theme.colors.border};
+
+a {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
 `
 
 
@@ -43,6 +51,7 @@ padding: 0.5rem;
 export const ContainerCardDescription = styled.div`
 width: 100%;
 display: flex;
+flex: 1;
 flex-direction: column;
 
 gap: 1rem;
@@ -88,6 +97,7 @@ export const CardInfo = styled.div`
 width: 100%;
 min-width: 0;
 display: flex;
+flex: 1;
 flex-direction: column;
 gap: 0.5rem;
 `
@@ -121,10 +131,12 @@ letter-spacing: 0.05em;
 
 export const ButtonsContainer = styled.div`
 width: 100%;
+min-width: 0;
 
-margin-top: 1rem;
+margin-top: auto;
 
 display: flex;
 flex-direction: column;
+align-items: flex-start;
 gap: 1rem;
 `
