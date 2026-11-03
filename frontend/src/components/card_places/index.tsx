@@ -28,11 +28,13 @@ interface CardPlacesProps {
     title: string;
     description: string;
     accessibility: {
-        wheelchairEntrance: string,
-        accessibleToilet: string,
-        stepFreeAccess: string,
+        wheelchairAccessibleEntrance: 'yes' | 'no' | 'unknown'
+        wheelchairAccessibleParking: 'yes' | 'no' | 'unknown'
+        wheelchairAccessibleRestroom: 'yes' | 'no' | 'unknown'
+        wheelchairAccessibleSeating: 'yes' | 'no' | 'unknown'
+        accessibilitySource: string
         accessibilityVerified: boolean
-    }
+      }
 }
 
 export function CardPlaces({ id, image, title, description, attraction_type, rating, accessibility }: CardPlacesProps) {
@@ -63,31 +65,7 @@ export function CardPlaces({ id, image, title, description, attraction_type, rat
                         <Title>{title}</Title>
                         <Location>{description}</Location>
                         <ButtonsContainer>
-                            {
-                                accessibility.wheelchairEntrance === 'yes' && (
-                                    <FeatureButton icon={WheelchairIcon}>Accessible Entrance</FeatureButton>
-                                )
-                            }
-
-
-                            {
-                                accessibility.wheelchairEntrance === 'no' && (
-                                    <FeatureButton icon={CrossIcon}>No accessible entrance</FeatureButton>
-                                )
-                            }
-
-                            {
-                                accessibility.wheelchairEntrance === 'unknown' && (
-                                    <FeatureButton icon={QuestionIcon}>Accessibility not confirmed</FeatureButton>
-                                )
-                            }
-
-
-                            {
-                                accessibility.accessibilityVerified === true && (
-                                    <VerifiedButton>Verified</VerifiedButton>
-                                )
-                            }
+                        <FeatureButton icon={WheelchairIcon}>View accessibility details</FeatureButton>
                         </ButtonsContainer>
                     </CardInfo>
 

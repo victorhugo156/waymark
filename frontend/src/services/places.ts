@@ -19,3 +19,23 @@ export async function getFeaturedPlaces(){
   
       return result
 }
+
+export async function getPlaceById(placeId: string){
+
+  console.log(placeId)
+  const response = await fetch(`${BASE_URL}/places/${placeId}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+
+    const result = await response.json();
+
+    if(!response.ok){
+      throw new ApiError(result.message || 'Failed to fetch places', response.status)
+    }
+
+    return result
+}

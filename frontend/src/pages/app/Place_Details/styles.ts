@@ -231,3 +231,16 @@ export const CommunityReviewItemText = styled.p`
 font-size: ${({ theme }) => theme.fontSizes.sm};
 color: ${({ theme }) => theme.colors.foreground};
 `
+
+export const SpinnerContainer = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgba(255, 255, 255, 0.8);
+`

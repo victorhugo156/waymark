@@ -39,7 +39,6 @@ import {
 import { Input } from '@/components/inputs/input'
 import{useNavigate} from 'react-router-dom'
 import { getFeaturedPlaces } from '@/services/places'
-import { ApiError } from '@/errors/ApiError'
 
 
 const dataCards = [
@@ -93,9 +92,11 @@ interface Place {
   imageUrl: string
   featured: boolean
   accessibility: {
-    wheelchairEntrance: string,
-    accessibleToilet: string,
-    stepFreeAccess: string,
+    wheelchairAccessibleEntrance: 'yes' | 'no' | 'unknown'
+    wheelchairAccessibleParking: 'yes' | 'no' | 'unknown'
+    wheelchairAccessibleRestroom: 'yes' | 'no' | 'unknown'
+    wheelchairAccessibleSeating: 'yes' | 'no' | 'unknown'
+    accessibilitySource: string
     accessibilityVerified: boolean
 }
 }

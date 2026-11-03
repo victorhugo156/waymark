@@ -32,11 +32,14 @@ import {
     CommunityReviewItem,
     CommunityReviewItemTitle,
     CommunityReviewItemText,
+    SpinnerContainer
 
 } from './styles'
+import Spinner from '@/components/spinner'
 
 import { VerifiedButton } from "@/components/verified_button";
 import { CardIssues } from "@/components/card_issues";
+import { getPlaceById } from "@/services/places";
 
 
 const dataCards = [
@@ -86,13 +89,36 @@ export function PlaceDetails() {
 
     const { placeId } = useParams();
     const [place, setPlace] = useState<any>(null);
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
-        const found = dataCards.find((card) => String(card.id) === placeId)
-        console.log(found)
-        if (found) {
-            setPlace(found)
+
+        async function loadPlace(){
+            setIsLoading(true)
+
+            try {
+
+                console.log(placeId)
+
+                if(!placeId){
+                    return console.log("invalida place ID")
+                }
+                const response = await getPlaceById(placeId)
+                console.log(response)
+                setPlace(response)
+              
+              } catch (error) {
+                setError('Unable to load featured places.')
+                
+              }finally{
+                setIsLoading(false)
+              }
+
         }
+
+        void loadPlace()
+
     }, [placeId])
 
     {
@@ -181,6 +207,7 @@ export function PlaceDetails() {
                             </CommunityReviewItem>
                         </ContainerCommunityReviewsItems>
                     </ContainerCommunityReviews>
+                    {isLoading && <SpinnerContainer><Spinner label="Signin you up..." /></SpinnerContainer>}
                 </Container>
             )
         }
