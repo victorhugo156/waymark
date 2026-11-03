@@ -22,7 +22,8 @@ interface GooglePlaceSearchResponse {
     displayName?: {
       text: string
     }
-    accessibilityOptions?: GoogleAccessibilityOptions
+    accessibilityOptions?: GoogleAccessibilityOptions,
+    formattedAddress?: string
   }
 
 
@@ -49,8 +50,12 @@ export async function searchGooglePlace(placeName: string) {
     })
 
     if (!response.ok) {
-        throw new Error(`Google Places API error: ${response.status}`)
-    }
+        const errorData = await response.text()
+      
+        throw new Error(
+          `Google Places API error ${response.status}: ${errorData}`
+        )
+      }
 
     const data = (await response.json()) as GooglePlaceSearchResponse
 
@@ -80,7 +85,7 @@ export async function getGooglePlaceDetails(placeId: string){
         headers: {
             'Content-Type': 'application/json',
             'X-Goog-Api-Key': API_KEY,
-            'X-Goog-FieldMask': 'id,displayName,accessibilityOptions'
+            'X-Goog-FieldMask': 'id,displayName,formattedAddress,accessibilityOptions'
         },
     })
 
@@ -93,6 +98,7 @@ export async function getGooglePlaceDetails(placeId: string){
     return {
         googlePlaceId: data.id,
         name: data.displayName?.text,
+        address: data.formattedAddress,
         accessibility: mapAccessibility(data.accessibilityOptions),
       }
 

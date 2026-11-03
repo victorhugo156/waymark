@@ -1,6 +1,8 @@
 import mongoose from 'mongoose'
 import { Place } from '../models/places'
 import { getGooglePlaceDetails } from '../services/googlePlaces'
+import { searchGooglePlace } from '../services/googlePlaces'
+
 
 async function updateGooglePlaces() {
   try {
@@ -15,30 +17,41 @@ async function updateGooglePlaces() {
     console.log('Connected to MongoDB')
 
     // 2. Find Sydney Opera House
-    const place = await Place.findOne({
-      name: 'Sydney Opera House'
+    //const place = await Place.findOne({ name: 'Sydney Opera House' })
+    const places = await Place.find({
+      googlePlaceId: null
     })
 
-    if (!place) {
-      throw new Error('Sydney Opera House not found in MongoDB')
+    console.log('Places missing Google IDs:', places.length)
+
+    if (places.length === 0) {
+      console.log('All places already have Google Place IDs')
     }
 
-    // 3. Check whether the Google Place ID exists
-    if (!place.googlePlaceId) {
-      throw new Error('Google Place ID is missing')
+    for (const place of places) {
+      const googlePlace = await searchGooglePlace(
+        `${place.name}, Sydney, Australia`
+      )
+
+      console.log('------------------------')
+      console.log('MongoDB name:', place.name)
+      console.log('MongoDB address:', place.address)
+      console.log('Google name:', googlePlace.name)
+      console.log('Google address:', googlePlace.address)
+      console.log('Google Place ID:', googlePlace.googlePlaceId)
+
+      // Save the Google Place ID
+      if (!googlePlace.googlePlaceId) {
+        console.log(`Skipping ${place.name}: Google Place ID missing`)
+        continue
+      }
+
+      place.googlePlaceId = googlePlace.googlePlaceId
+
+      await place.save()
+
+      console.log(`Saved Google Place ID for ${place.name}`)
     }
-
-    console.log('MongoDB place:', place.name)
-    console.log('Saved Google Place ID:', place.googlePlaceId)
-
-    // 4. Request accessibility information from Google
-    const googleDetails = await getGooglePlaceDetails(
-      place.googlePlaceId
-    )
-
-    // 5. Display the information
-    console.log('Google place:', googleDetails.name)
-    console.log('Google accessibility:', googleDetails.accessibility)
 
   } catch (error) {
     console.error('Error:', error)
