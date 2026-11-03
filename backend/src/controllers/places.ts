@@ -30,7 +30,6 @@ export async function getPlaces(req: Request, res: Response, next: NextFunction)
 }
 
 export async function getPlaceById(req: Request, res: Response, next: NextFunction) {
-    console.log('GET PLACE BY ID CONTROLLER REACHED')
     try {
 
         const place = await Place.findById(req.params.id)
