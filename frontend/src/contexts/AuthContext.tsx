@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState, type ReactNode } from "react";
 import { refreshToken, signin } from "@/services/auth";
 import { setAccessToken, deleteAccessToken } from "@/utils/token";
+import { getCurrentUser } from "@/services/users";
 
 
 interface AuthContextData {
@@ -19,6 +20,7 @@ interface User {
     _id: string
     username: string
     email: string
+    accessibilityPreferences: string[]
 }
 
 interface AuthProvider {
@@ -38,6 +40,8 @@ export function AuthContextProvider({ children }: AuthProvider) {
         const response = await signin(data)
 
         setAccessToken(response.token)
+        const userData = await getCurrentUser()
+        setUser(userData)
         setIsAuthenticated(true)
     }
 
@@ -48,6 +52,8 @@ export function AuthContextProvider({ children }: AuthProvider) {
                 const response = await refreshToken()
 
                 setAccessToken(response.token)
+                const userData = await getCurrentUser()
+                setUser(userData)
                 setIsAuthenticated(true)
             } catch (error) {
                 deleteAccessToken()
@@ -60,11 +66,11 @@ export function AuthContextProvider({ children }: AuthProvider) {
         void restoreSession()
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
 
         console.log('Authentication:', isAuthenticated)
 
-    },[isAuthenticated])
+    }, [isAuthenticated])
 
     return (
         <AuthContext.Provider value={{ user, isAuthLoading, isAuthenticated, ContextSignin }}>
