@@ -42,78 +42,97 @@ import { CardIssues } from "@/components/card_issues";
 import { getPlaceById } from "@/services/places";
 
 
-const dataCards = [
-    {
-        id: 1,
-        attraction_type: 'Beach',
-        rating: 4.8,
-        image: card_bondi,
-        title: 'Bondi Beach',
-        description: 'Sydney, Australia',
-    },
-    {
-        id: 2,
-        attraction_type: 'Museum',
-        rating: 4.5,
-        image: card_opera_house,
-        title: 'Opera House',
-        description: 'Sydney, Australia',
-    },
-    {
-        id: 3,
-        attraction_type: 'Zoo',
-        rating: 4.3,
-        image: card_bondi,
-        title: 'Sydney Harbour Bridge',
-        description: 'Sydney, Australia',
-    },
-    {
-        id: 4,
-        attraction_type: 'Bridge',
-        rating: 4.3,
-        image: card_opera_house,
-        title: 'Sydney Harbour Bridge',
-        description: 'Sydney, Australia',
-    },
-    {
-        id: 5,
-        attraction_type: 'Cafe',
-        rating: 4.3,
-        image: "",
-        title: 'Sydney Harbour Bridge',
-        description: 'Sydney, Australia',
-    },
-]
+// const dataCards = [
+//     {
+//         id: 1,
+//         attraction_type: 'Beach',
+//         rating: 4.8,
+//         image: card_bondi,
+//         title: 'Bondi Beach',
+//         description: 'Sydney, Australia',
+//     },
+//     {
+//         id: 2,
+//         attraction_type: 'Museum',
+//         rating: 4.5,
+//         image: card_opera_house,
+//         title: 'Opera House',
+//         description: 'Sydney, Australia',
+//     },
+//     {
+//         id: 3,
+//         attraction_type: 'Zoo',
+//         rating: 4.3,
+//         image: card_bondi,
+//         title: 'Sydney Harbour Bridge',
+//         description: 'Sydney, Australia',
+//     },
+//     {
+//         id: 4,
+//         attraction_type: 'Bridge',
+//         rating: 4.3,
+//         image: card_opera_house,
+//         title: 'Sydney Harbour Bridge',
+//         description: 'Sydney, Australia',
+//     },
+//     {
+//         id: 5,
+//         attraction_type: 'Cafe',
+//         rating: 4.3,
+//         image: "",
+//         title: 'Sydney Harbour Bridge',
+//         description: 'Sydney, Australia',
+//     },
+// ]
+
+interface Place {
+    _id: string
+    name: string
+    description: string
+    category: string
+    imageUrl: string
+    images: string[]
+    featured: boolean
+    accessibility: {
+        wheelchairAccessibleEntrance: 'yes' | 'no' | 'unknown'
+        wheelchairAccessibleParking: 'yes' | 'no' | 'unknown'
+        wheelchairAccessibleRestroom: 'yes' | 'no' | 'unknown'
+        wheelchairAccessibleSeating: 'yes' | 'no' | 'unknown'
+        accessibilitySource: string
+        accessibilityVerified: boolean
+    }
+}
 
 export function PlaceDetails() {
 
     const { placeId } = useParams();
-    const [place, setPlace] = useState<any>(null);
+    const [place, setPlace] = useState<Place | null>(null);
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
 
-        async function loadPlace(){
+        async function loadPlace() {
             setIsLoading(true)
 
             try {
 
                 console.log(placeId)
 
-                if(!placeId){
+                if (!placeId) {
                     return console.log("invalida place ID")
                 }
                 const response = await getPlaceById(placeId)
                 console.log(response)
                 setPlace(response)
-              
-              } catch (error) {
+
+            } catch (error) {
                 setError('Unable to load featured places.')
-                
-              }finally{
+
+            } finally {
                 setIsLoading(false)
-              }
+                console.log(place)
+            }
 
         }
 
@@ -131,15 +150,23 @@ export function PlaceDetails() {
         } else {
             return (
                 <Container>
+
                     <PlacePhotos>
-                        <CoverPhoto src={place.image} alt={place.title} />
+                        <CoverPhoto src={place.imageUrl} alt={place.name} />
                         <PhotoRow>
-                            <PreviewPhoto src={place.image} alt="" />
-                            <Button variant="ink" className="h-auto min-h-0 min-w-0 flex-1 self-stretch rounded-2xl">18 community photos</Button>
+                            <PreviewPhoto src={place.imageUrl} alt="" />
+                            {
+                                place.images.length > 0 ? (
+                                    <Button variant="ink" className="h-auto min-h-0 min-w-0 flex-1 self-stretch rounded-2xl">{`${place.images.length} more images`}</Button>
+                                ) : (
+                                    <Button variant="ink" className="h-auto min-h-0 min-w-0 flex-1 self-stretch rounded-2xl">No images available</Button>
+                                )
+                            }
+
                         </PhotoRow>
                     </PlacePhotos>
 
-                    <TitlePlace>{place.title}</TitlePlace>
+                    <TitlePlace>{place.name}</TitlePlace>
                     <DescriptionPlace>{place.description}</DescriptionPlace>
                     <Button>Plan accessible journey</Button>
                     <AccessibilitySection>
@@ -170,10 +197,42 @@ export function PlaceDetails() {
 
                             <AccessibilityListTitle>Mobility</AccessibilityListTitle>
                             <AccessibilityInfoContentMobility>
-                                <AccessibilityInfoContentItem>✓ Accessible entrance</AccessibilityInfoContentItem>
-                                <AccessibilityInfoContentItem>✓ Accessible restroom</AccessibilityInfoContentItem>
-                                <AccessibilityInfoContentItem>✓ Accessible parking</AccessibilityInfoContentItem>
-                                <AccessibilityInfoContentItem>✓ Accessible seating</AccessibilityInfoContentItem>
+                                <AccessibilityInfoContentItem>
+                                    {place.accessibility.wheelchairAccessibleEntrance === 'yes'
+                                        ? '✓ Accessible entrance'
+                                        : place.accessibility.wheelchairAccessibleEntrance === 'no'
+                                        ? '✕ No accessible entrance reported'
+                                        : '? Entrance accessibility not confirmed'
+                                    }
+                                </AccessibilityInfoContentItem>
+                                <AccessibilityInfoContentItem>
+                                    {
+                                        place.accessibility.wheelchairAccessibleRestroom === "yes"
+                                        ? '✓ Accessible restroom'
+                                        : place.accessibility.wheelchairAccessibleRestroom === 'no'
+                                        ? '✕ No accessible restroom reported'
+                                        : '? Restroom accessibility not confirmed'
+                                    }
+
+                                </AccessibilityInfoContentItem>
+                                <AccessibilityInfoContentItem>
+                                {
+                                        place.accessibility.wheelchairAccessibleParking === "yes"
+                                        ? '✓ Accessible parking'
+                                        : place.accessibility.wheelchairAccessibleParking === 'no'
+                                        ? '✕ No accessible parking reported'
+                                        : '? Parking accessibility not confirmed'
+                                    }
+                                </AccessibilityInfoContentItem>
+                                <AccessibilityInfoContentItem>
+                                {
+                                        place.accessibility.wheelchairAccessibleSeating === "yes"
+                                        ? '✓ Accessible seating'
+                                        : place.accessibility.wheelchairAccessibleSeating === 'no'
+                                        ? '✕ No accessible seating reported'
+                                        : '? Seating accessibility not confirmed'
+                                    }
+                                </AccessibilityInfoContentItem>
                             </AccessibilityInfoContentMobility>
 
 
@@ -196,7 +255,7 @@ export function PlaceDetails() {
                             <CommunityReviewItem>
                                 <CommunityReviewItemTitle>Wynyard — lift reported slow today</CommunityReviewItemTitle>
                                 <CommunityReviewItemText>Lift is operating, but additional waiting time may be required. This may affect the step-free route.</CommunityReviewItemText>
-                                
+
                             </CommunityReviewItem>
 
                             <Separator />
@@ -207,6 +266,7 @@ export function PlaceDetails() {
                             </CommunityReviewItem>
                         </ContainerCommunityReviewsItems>
                     </ContainerCommunityReviews>
+
                     {isLoading && <SpinnerContainer><Spinner label="Signin you up..." /></SpinnerContainer>}
                 </Container>
             )
