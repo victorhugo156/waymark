@@ -17,7 +17,7 @@ import { Input } from '@/components/inputs/input'
 import { Button } from '@/components/ui/button'
 import logo from '@/assets/logo_white.webp'
 import { useState, useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 import { ApiError } from '@/errors/ApiError'
 import { useForm } from 'react-hook-form'
@@ -38,6 +38,7 @@ export function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const { ContextSignin } = useContext(AuthContext)
   const navigate = useNavigate()
+  const location = useLocation()
 
   const { register, handleSubmit, setError, formState: { errors } } = useForm<SigninFormSchema>({
     resolver: zodResolver(signinFormSchema),
@@ -52,7 +53,11 @@ export function Login() {
     try {
 
       await ContextSignin(data)
-      navigate('/')
+      const from = location.state?.from
+
+      const redirectPath = from ? `${from.pathname}${from.search}` : '/'
+
+      navigate(redirectPath, { replace: true })
 
     } catch (error: any) {
       if (error instanceof ApiError && error.status === 401) {
@@ -92,7 +97,7 @@ export function Login() {
           </Errors>}
 
           <Label htmlFor="password">Password</Label>
-          <Input id="password" {...register('password')} placeholder="Password" type="password"  autoComplete="current-password" />
+          <Input id="password" {...register('password')} placeholder="Password" type="password" autoComplete="current-password" />
           {errors.password && <Errors role="alert">{errors.password.message}</Errors>}
 
           <Button variant="default">Login</Button>

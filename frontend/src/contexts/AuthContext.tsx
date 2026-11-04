@@ -68,8 +68,6 @@ export function AuthContextProvider({ children }: AuthProvider) {
 
     useEffect(() => {
 
-        console.log('Authentication:', isAuthenticated)
-
     }, [isAuthenticated])
 
     return (
