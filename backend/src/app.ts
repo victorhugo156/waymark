@@ -41,10 +41,7 @@ app.use(cookieParser())
 
 app.use('/auth', authRouter)
 app.use("/places", placesRouter)
-<<<<<<< HEAD
 app.use('/users', usersRouter)
-=======
->>>>>>> frontend
 app.use('/', AuthMiddleware)
 
 app.use(errorHandler)
