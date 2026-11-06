@@ -9,6 +9,7 @@ import errorHandler from './middlewares/errorHandler'
 import cookieParser from 'cookie-parser'
 import UnauthorisedError from './errors/Unauthorised'
 import placesRouter from './routes/places'
+import journeysRouter from './routes/journeys'
 
 const app = express()
 const port = Number(process.env.PORT) || 8000
@@ -41,6 +42,7 @@ app.use(cookieParser())
 
 app.use('/auth', authRouter)
 app.use("/places", placesRouter)
+app.use("/journey", journeysRouter)
 app.use('/users', usersRouter)
 app.use('/', AuthMiddleware)
 
