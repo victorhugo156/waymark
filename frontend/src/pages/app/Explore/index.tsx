@@ -2,8 +2,6 @@ import { InputSearch } from "@/components/input_search";
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { CardPlaces } from "@/components/card_places";
-import card_bondi from '@/assets/card_bondi.webp'
-import card_opera_house from '@/assets/card_opera_house.webp'
 import {
   Main,
   Title,
@@ -15,56 +13,55 @@ import {
   Cards
 } from "./styles";
 import { MagnifyingGlassIcon } from "@phosphor-icons/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getPlaces } from "@/services/places";
+import Spinner  from "@/components/spinner";
+
+interface Place {
+  _id: string
+  name: string
+  description: string
+  category: string
+  imageUrl: string
+  accessibility: {
+    wheelchairAccessibleEntrance: 'yes' | 'no' | 'unknown'
+    wheelchairAccessibleParking: 'yes' | 'no' | 'unknown'
+    wheelchairAccessibleRestroom: 'yes' | 'no' | 'unknown'
+    wheelchairAccessibleSeating: 'yes' | 'no' | 'unknown'
+    accessibilitySource: string
+    accessibilityVerified: boolean
+  }
+}
 
 
-
-const dataCards = [
-  {
-    id: 1,
-    attraction_type: 'Beach',
-    rating: 4.8,
-    image: card_bondi,
-    title: 'Bondi Beach',
-    description: 'Sydney, Australia',
-  },
-  {
-    id: 2,
-    attraction_type: 'Museum',
-    rating: 4.5,
-    image: card_opera_house,
-    title: 'Opera House',
-    description: 'Sydney, Australia',
-  },
-  {
-    id: 3,
-    attraction_type: 'Zoo',
-    rating: 4.3,
-    image: card_bondi,
-    title: 'Sydney Harbour Bridge',
-    description: 'Sydney, Australia',
-  },
-  {
-    id: 4,
-    attraction_type: 'Bridge',
-    rating: 4.3,
-    image: card_opera_house,
-    title: 'Sydney Harbour Bridge',
-    description: 'Sydney, Australia',
-  },
-  {
-    id: 5,
-    attraction_type: 'Cafe',
-    rating: 4.3,
-    image: "",
-    title: 'Sydney Harbour Bridge',
-    description: 'Sydney, Australia',
-  },
-]
 
 export function Explore() {
 
   const [search, setSearch] = useState("");
+  const [places, setPlaces] = useState<Place[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  const filteredPlaces = places.filter((place) => {
+    return place.name.toLowerCase().includes(search.toLowerCase().trim())
+  })
+
+  useEffect(() => {
+    const loadPlaces = async () => {
+      try {
+        const places = await getPlaces()
+        setPlaces(places)
+      } catch (error) {
+        setError('Unable to load places.')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    loadPlaces()
+  }, [])
+
+
+
   return (
     <Main>
       <ExploreContainer>
@@ -86,21 +83,27 @@ export function Explore() {
           </ToggleGroup>
         </FiltersContainer>
 
-<Cards>
-{dataCards.map((card) => (
-          <CardPlaces
-            key={card.id}
-            image={card.image}
-            attraction_type={card.attraction_type}
-            rating={card.rating}
-            title={card.title}
-            description={card.description}
-          />
-        ))}
-
-</Cards>
-
-
+        {isLoading ? (
+          <Spinner />
+        ) : error ? (
+          <p role="alert">{error}</p>
+        ) : filteredPlaces.length === 0 ? (
+          <p>No places found. Try another search.</p>
+        ) : (
+          <Cards>
+            {filteredPlaces.map((place) => (
+              <CardPlaces
+                key={place._id}
+                id={place._id}
+                image={place.imageUrl}
+                attraction_type={place.category}
+                title={place.name}
+                description={place.description}
+                accessibility={place.accessibility}
+              />
+            ))}
+          </Cards>
+        )}
       </SectionFilters>
     </Main>
   );

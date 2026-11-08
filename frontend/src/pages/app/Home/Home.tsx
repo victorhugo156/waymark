@@ -130,7 +130,7 @@ export function Home() {
         <PlacesSection>
           <ContainerPlacesTitle>
             <PlacesTitle>Featured places in Sydney</PlacesTitle>
-            <PlacesDescription>Based on the accessibility preferences you selected.</PlacesDescription>
+            <PlacesDescription>Discover popular Sydney destinations and explore their available accessibility information.</PlacesDescription>
           </ContainerPlacesTitle>
         </PlacesSection>
 
