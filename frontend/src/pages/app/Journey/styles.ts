@@ -60,17 +60,44 @@ gap: 1rem;
 
 `
 
+export const ContainerJourney = styled.div`
+width: 100%;
+display: flex;
+flex-direction: column;
+
+`
+
 export const TitleJourney = styled.h2`
 
-font-size: ${props => props.theme.fontSizes.xl};
+font-size: ${props => props.theme.fontSizes.xs};
 font-weight: ${props => props.theme.fontWeights.extrabold};
+
+line-height: 1.5;
+
+@media (min-width: 768px) {
+    font-size: ${props => props.theme.fontSizes.base};
+    line-height: 1.5;
+}
+
+@media (min-width: 1024px) {
+    font-size: ${props => props.theme.fontSizes.xl};
+    line-height: 1.5;
+}
 
 `
 
 export const TextJourney = styled.p`
 
-font-size: ${props => props.theme.fontSizes.base};
+font-size: ${props => props.theme.fontSizes.xxs};
 font-weight: ${props => props.theme.fontWeights.regular};
 color: ${props => props.theme.colors.mutedForeground};
+
+@media (min-width: 768px) {
+    font-size: ${props => props.theme.fontSizes.sm};
+}
+
+@media (min-width: 1024px) {
+    font-size: ${props => props.theme.fontSizes.base};
+}
 
 `

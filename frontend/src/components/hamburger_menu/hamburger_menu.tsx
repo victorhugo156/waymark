@@ -12,6 +12,7 @@ export function HamburgerMenu() {
         setIsOpen(!isOpen);
     }
 
+
     useEffect(() => {
         document.body.style.overflow = isOpen ? 'hidden' : '';
 
@@ -23,24 +24,24 @@ export function HamburgerMenu() {
     return (
         <>
             <HamburgerMenuButton onClick={toggleMenu}>
-                {isOpen ? <XIcon size={24} /> : <ListIcon size={24} />}  
+                {isOpen ? <XIcon size={24} /> : <ListIcon size={24} />}
             </HamburgerMenuButton>
 
-                <NavMenu $isOpen={isOpen}>
-                    <NavItem>
-                        <Link to="/explore" onClick={toggleMenu}>Explore</Link>
-                    </NavItem>
-                    <NavItem>
-                        <Link to="/map" onClick={toggleMenu}>Map</Link>
-                    </NavItem>
-                    <NavItem>
-                        <Link to="/journey">Journeys</Link>
-                    </NavItem>
-                    <NavItem>
-                        <Link to="/community">Community</Link>
-                    </NavItem>
-                </NavMenu>
-            
+            <NavMenu $isOpen={isOpen}>
+                <NavItem>
+                    <Link to="/explore" onClick={toggleMenu}>Explore</Link>
+                </NavItem>
+                <NavItem>
+                    <Link to="/map" onClick={toggleMenu}>Map</Link>
+                </NavItem>
+                <NavItem>
+                    <Link to="/journey">Journeys</Link>
+                </NavItem>
+                <NavItem>
+                    <Link to="/community">Community</Link>
+                </NavItem>
+            </NavMenu>
+
         </>
 
     )

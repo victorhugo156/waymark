@@ -41,49 +41,6 @@ import{useNavigate} from 'react-router-dom'
 import { getFeaturedPlaces } from '@/services/places'
 
 
-const dataCards = [
-  {
-    id: 1,
-    attraction_type: 'Beach',
-    rating: 4.8,
-    image: card_bondi,
-    title: 'Bondi Beach',
-    description: 'Sydney, Australia',
-  },
-  {
-    id: 2,
-    attraction_type: 'Museum',
-    rating: 4.5,
-    image: card_opera_house,
-    title: 'Opera House',
-    description: 'Sydney, Australia',
-  },
-  {
-    id: 3,
-    attraction_type: 'Zoo',
-    rating: 4.3,
-    image: card_bondi,
-    title: 'Sydney Harbour Bridge',
-    description: 'Sydney, Australia',
-  },
-  {
-    id: 4,
-    attraction_type: 'Bridge',
-    rating: 4.3,
-    image: card_opera_house,
-    title: 'Sydney Harbour Bridge',
-    description: 'Sydney, Australia',
-  },
-  {
-    id: 5,
-    attraction_type: 'Cafe',
-    rating: 4.3,
-    image: "",
-    title: 'Sydney Harbour Bridge',
-    description: 'Sydney, Australia',
-  },
-]
-
 interface Place {
   _id: string
   name: string

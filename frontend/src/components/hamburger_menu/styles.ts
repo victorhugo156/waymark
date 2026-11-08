@@ -45,3 +45,15 @@ font-weight: 500;
 
 
 `
+
+export const ContainerLogout = styled.div`
+display: flex;
+border-top: 1px solid ${({ theme }) => theme.colors.mutedForeground};
+
+margin-top: 1rem;
+
+padding-top: .5rem;
+
+`
+
+

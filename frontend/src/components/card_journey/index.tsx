@@ -1,4 +1,4 @@
-import type { Journey } from '@/utils/mockJourney'
+
 import {
     Container,
     ContainerStepsJourney,
@@ -14,8 +14,33 @@ import {
 } from './styles'
 
 
+interface JourneyLeg {
+    from: string
+    to: string
+    mode: string
+    line?: string
+    destinationWheelchairAccess: AccessibilityStatus
+    originWheelchairAccess: AccessibilityStatus
+    wheelchairAccess: AccessibilityStatus
+    lowFloorVehicle: AccessibilityStatus
+    arrivalTime: string
+    departureTime: string
+    durationMinutes: number | null
+}
+
+
 interface CardJourneyProps {
-    journey: Journey;
+    journey: Journey
+}
+
+type AccessibilityStatus = 'yes' | 'no' | 'unknown'
+
+interface Journey {
+    id: string
+    accessibilityStatus: AccessibilityStatus
+    totalDurationMinutes: number | null
+    interchanges: number
+    legs: JourneyLeg[]
 }
 
 export function CardJourney({ journey }: CardJourneyProps) {
@@ -26,56 +51,65 @@ export function CardJourney({ journey }: CardJourneyProps) {
         lowFloorVehicle: "Low-floor vehicle",
         liftAvailable: "Lift available",
         stairFree: "Step-free route",
+        originWheelchairAccess: 'Boarding stop wheelchair access',
+        destinationWheelchairAccess: 'Arrival stop wheelchair access',
     }
 
-    const steps = [...journey.steps];
-    
+    const steps = journey.legs;
 
-
-    return (
-
+    return(
         <>
-            {
-              
-                steps.map((step) => (
-                    
-                    <Container>
-                        <ContainerStepsJourney>
-                            <CircleIcon>
-                                <StepJourney>{step.order}</StepJourney>
-                            </CircleIcon>
 
-                            <StepJourneyDescription>
-                                <StationTitle>{step.title}</StationTitle>
-                                <TransportInformation>{step.subtitle}</TransportInformation>
-                                <ContainerAccessibilityInformation>
-                                    {
-                                        // accessibility is an object, not a list, so it has no .map.
-                                        // Object.entries turns each feature into a pair: ["wheelchairAccess", "yes"].
-                                        // name is the feature. value is "yes", "no", or "unknown".
-                                        Object.entries(step.accessibility).map(([name, value]) => {
-                                            if (value === "unknown" || typeof value === "boolean") return null
-                                              
-                                            return (
-                                                
-                                                <AccessibilityInformation key={name}>
-                                                    <ValidationIcon aria-hidden="true">{value === "yes" ? "✔" : "✖"}</ValidationIcon>
-                                                    <AccessibilityInformationText>
-                                                        {labels[name as keyof typeof labels]}
-                                                    </AccessibilityInformationText>
-                                                </AccessibilityInformation>
-
-                                                
-                                            )
-                                        })
-                                    }
-                                </ContainerAccessibilityInformation>
-                            </StepJourneyDescription>
-                        </ContainerStepsJourney>
-                    </Container>
-                ))
+        {steps.map((leg, index) => {
+            const accessibility = {
+                wheelchairAccess: leg.wheelchairAccess,
+                lowFloorVehicle: leg.lowFloorVehicle,
+                originWheelchairAccess: leg.originWheelchairAccess,
+                destinationWheelchairAccess: leg.destinationWheelchairAccess,
             }
 
-        </>
+            return (
+                <Container key={index}>
+                    <ContainerStepsJourney>
+                        <CircleIcon>
+                            <StepJourney>{index + 1}</StepJourney>
+                        </CircleIcon>
+
+                        <StepJourneyDescription>
+                            <StationTitle>{leg.from}</StationTitle>
+                            <TransportInformation>
+                                {leg.line ?? leg.mode} — {leg.to}
+                            </TransportInformation>
+
+                            <ContainerAccessibilityInformation>
+                                {Object.entries(accessibility).map(([name, value]) => {
+                                    if (value === 'unknown') return null
+
+                                    return (
+                                        <AccessibilityInformation key={name}>
+                                            <ValidationIcon aria-hidden="true">
+                                                {value === 'yes' ? '✔' : '✖'}
+                                            </ValidationIcon>
+
+                                            <AccessibilityInformationText>
+                                                {labels[name as keyof typeof labels]}
+                                            </AccessibilityInformationText>
+                                        </AccessibilityInformation>
+                                    )
+                                })}
+                            </ContainerAccessibilityInformation>
+                        </StepJourneyDescription>
+                    </ContainerStepsJourney>
+                </Container>
+
+            )
+        })
+        }
+    </>
+
+
     )
+
+
+
 }

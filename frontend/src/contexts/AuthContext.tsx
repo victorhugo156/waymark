@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState, type ReactNode } from "react";
-import { refreshToken, signin } from "@/services/auth";
+import { logout, refreshToken, signin } from "@/services/auth";
 import { setAccessToken, deleteAccessToken } from "@/utils/token";
 import { getCurrentUser } from "@/services/users";
 
@@ -9,6 +9,7 @@ interface AuthContextData {
     isAuthenticated: boolean
     isAuthLoading: boolean
     ContextSignin: (data: SigninData) => Promise<void>
+    ContextLogout: () => Promise<void>
 }
 
 interface SigninData {
@@ -45,6 +46,15 @@ export function AuthContextProvider({ children }: AuthProvider) {
         setIsAuthenticated(true)
     }
 
+    async function ContextLogout() {
+
+        await logout()
+
+        deleteAccessToken()
+        setUser(null)
+        setIsAuthenticated(false)
+    }
+
 
     useEffect(() => {
         async function restoreSession() {
@@ -71,7 +81,7 @@ export function AuthContextProvider({ children }: AuthProvider) {
     }, [isAuthenticated])
 
     return (
-        <AuthContext.Provider value={{ user, isAuthLoading, isAuthenticated, ContextSignin }}>
+        <AuthContext.Provider value={{ user, isAuthLoading, isAuthenticated, ContextSignin, ContextLogout }}>
             {children}
         </AuthContext.Provider>
     )

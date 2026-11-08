@@ -32,6 +32,7 @@ export const defaultTheme = {
     sans: "'Instrument Sans', sans-serif",
   },
   fontSizes: {
+    xxs: '12px',
     xs: '14px',
     sm: '16px',
     base: '18px',

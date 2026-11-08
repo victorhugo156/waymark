@@ -35,28 +35,106 @@ gap: .5rem;
 align-items: center;
 `
 
-export const UserProfile = styled.button`
-background-color: ${({ theme }) => theme.colors.foreground};
-width: 2.75rem;
-height: 2.75rem;
-
+export const ContainerLogout = styled.div`
 display: flex;
-align-items: center;
-justify-content: center;
 
-border-radius: 50%;
+border-top: 1px solid ${({ theme }) => theme.colors.border};
 
-padding: 0.5rem;
 
-cursor: pointer;
-
-p {
-font-size: 1rem;
-font-weight: 600;
-color: ${({ theme }) => theme.colors.primary};
+@media (min-width: 1024px) {
+  display: block;
 }
 
 `
+
+export const ContainerProfileMenu = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+`;
+export const UserProfile = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 48px;
+  height: 48px;
+  padding: 0;
+
+  background-color: #111;
+  color: #fbc400;
+  border: none;
+  border-radius: 50%;
+
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1;
+
+  cursor: pointer;
+  flex-shrink: 0;
+
+  &:hover {
+    background-color: #333;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #111;
+    outline-offset: 3px;
+  }
+`;
+
+export const ProfileMenu = styled.div`
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  right: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  min-width: 200px;
+  padding: 1rem;
+
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+
+  z-index: 100;
+`;
+
+export const ProfileMenuLogout = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.75rem;
+
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 1rem 0.5rem 0.25rem;
+
+  background: transparent;
+  border: none;
+  border-top: 1px solid #d4d4d4;
+  border-radius: 0;
+
+  color: #111;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: left;
+
+  cursor: pointer;
+
+  &:hover {
+    color: #666;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #111;
+    outline-offset: 2px;
+  }
+`;
 
 export const NavDesktop = styled.nav`
 display: none;

@@ -1,68 +1,81 @@
-import type {SignUpFormSchema  } from "../pages/auth/signup"
-import type {SigninFormSchema  } from "../pages/auth/login"
+import type { SignUpFormSchema } from "../pages/auth/signup"
+import type { SigninFormSchema } from "../pages/auth/login"
 import { ApiError } from "../errors/ApiError"
+import { getAccessToken } from "@/utils/token";
 
 
 export const BASE_URL = "http://localhost:8000";
 
-export const signin = async (data: SigninFormSchema )=> {
+export const signin = async (data: SigninFormSchema) => {
 
   const response = await fetch(`${BASE_URL}/auth/signin`, {
-      method: "POST",
-      credentials: 'include',
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
+    method: "POST",
+    credentials: 'include',
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
 
   const result = await response.json();
 
-    if(!response.ok){
-      throw new ApiError(result.message || 'Signin failed', response.status)
-    }
+  if (!response.ok) {
+    throw new ApiError(result.message || 'Signin failed', response.status)
+  }
 
-    return result
+  return result
 }
 
-export const refreshToken = async ()=> {
+export const refreshToken = async () => {
 
   const response = await fetch(`${BASE_URL}/auth/refresh`, {
-      method: "POST",
-      credentials: 'include',
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
+    method: "POST",
+    credentials: 'include',
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  })
 
   const result = await response.json();
 
-    if(!response.ok){
-      throw new ApiError(result.message || 'Session refresh failed', response.status)
-    }
+  if (!response.ok) {
+    throw new ApiError(result.message || 'Session refresh failed', response.status)
+  }
 
-    return result
+  return result
 }
 
-export const signup = async (data: SignUpFormSchema )=> {
+export const signup = async (data: SignUpFormSchema) => {
 
-    const response = await fetch(`${BASE_URL}/auth/signup`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
+  const response = await fetch(`${BASE_URL}/auth/signup`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
 
-    const result = await response.json();
+  const result = await response.json();
 
-      if(!response.ok){
-        throw new ApiError(result.message || 'Signup failed', response.status)
-      }
+  if (!response.ok) {
+    throw new ApiError(result.message || 'Signup failed', response.status)
+  }
 
-      return result
+  return result
 
+}
+
+export async function logout() {
+
+  const response = await fetch(`${BASE_URL}/auth/logout`, {
+    method: "POST",
+    credentials: 'include',
+  })
+
+  if (!response.ok) {
+    throw new ApiError('Logout failed', response.status)
+  }
 }
