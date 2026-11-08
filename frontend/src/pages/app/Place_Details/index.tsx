@@ -1,7 +1,5 @@
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import card_bondi from '@/assets/card_bondi.webp'
-import card_opera_house from '@/assets/card_opera_house.webp'
+import { useParams, useNavigate, createSearchParams } from "react-router-dom";
+import { useEffect, useState} from "react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
@@ -106,9 +104,25 @@ interface Place {
 export function PlaceDetails() {
 
     const { placeId } = useParams();
+    const navigate = useNavigate()
+
+
     const [place, setPlace] = useState<Place | null>(null);
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
+
+
+    function handlePlanJourney(){
+        if(!placeId)  return
+            
+        navigate({
+            pathname: "/journey",
+            search: `?${createSearchParams({
+              destination: placeId,
+            })}`,
+          });
+        
+    }
 
     useEffect(() => {
 
@@ -168,7 +182,7 @@ export function PlaceDetails() {
 
                     <TitlePlace>{place.name}</TitlePlace>
                     <DescriptionPlace>{place.description}</DescriptionPlace>
-                    <Button>Plan accessible journey</Button>
+                    <Button onClick={handlePlanJourney}>Plan accessible journey</Button>
                     <AccessibilitySection>
                         <AccessibilityPlaceDescriptionMobile>
                             <AccessibilityPlaceDescription>
