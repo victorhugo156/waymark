@@ -35,7 +35,7 @@ interface Journey {
 }
 
 
-export const BASE_URL = "http://localhost:8000";
+export const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export async function getJourneys(data: JourneyRequest): Promise<JourneyResponse> {
 
     const token = getAccessToken()
