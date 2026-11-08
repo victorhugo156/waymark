@@ -7,7 +7,9 @@
     "dev": "nodemon --watch src --ext ts --exec \"tsc && node --env-file=.env dist/app.js\"",
     "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "seed": "tsx --env-file=.env src/scripts/seedPlaces.ts"
+    "seed": "tsx --env-file=.env src/scripts/seedPlaces.ts",
+    "build": "tsc",
+    "start": "node dist/app.js"
   },
   "keywords": [],
   "author": "",

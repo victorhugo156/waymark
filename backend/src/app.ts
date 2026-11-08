@@ -7,7 +7,6 @@ import usersRouter from './routes/users'
 import { AuthMiddleware } from './middlewares/authMiddleware'
 import errorHandler from './middlewares/errorHandler'
 import cookieParser from 'cookie-parser'
-import UnauthorisedError from './errors/Unauthorised'
 import placesRouter from './routes/places'
 import journeysRouter from './routes/journeys'
 
@@ -18,7 +17,7 @@ const port = Number(process.env.PORT) || 8000
 async function connectToMongoDB() {
 
   if(!process.env.MONGO_URI){
-    throw new UnauthorisedError("❌ Invalid or missing environment configuration")
+    throw new Error("Missing MONGO_URI environment variable")
   }
     await mongoose.connect(process.env.MONGO_URI)
 }
