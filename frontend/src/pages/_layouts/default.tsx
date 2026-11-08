@@ -134,9 +134,9 @@ const profileButtonRef = useRef<HTMLButtonElement>(null)
         <FooterLinksContainer>
           <FooterLinks>
             <p>EXPLORE</p>
-            <li><Link to="/privacy">Places</Link></li>
-            <li><Link to="/terms">Map</Link></li>
-            <li><Link to="/contact">Journeys</Link></li>
+            <li><Link to="/explore">Places</Link></li>
+            <li><Link to="/map'">Map</Link></li>
+            <li><Link to="/journey">Journeys</Link></li>
           </FooterLinks>
           <FooterLinks>
             <p>COMMUNITY</p>
@@ -147,8 +147,8 @@ const profileButtonRef = useRef<HTMLButtonElement>(null)
           <FooterLinks>
             <p>ACCOUNT</p>
             <li><Link to="/privacy">Preferences</Link></li>
-            <li><Link to="/terms">Log in</Link></li>
-            <li><Link to="/contact">Sign up</Link></li>
+            <li><Link to="/sign-in">Log in</Link></li>
+            <li><Link to="/sign-up">Sign up</Link></li>
           </FooterLinks>
         </FooterLinksContainer>
       </Footer>
