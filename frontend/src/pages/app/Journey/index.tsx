@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
 import { mockJourney } from "@/utils/mockJourney"
 import { getPlaceById } from "@/services/places"
-import { getPlaces } from "@/services/api"
+import { getJourneys } from "@/services/journeys"
 import { z } from "zod"
 
 import {
@@ -49,7 +49,12 @@ export function Journey() {
     })
 
     async function handleJourneySearch(data: JourneyFormSchema) {
-        console.log(data);
+        try {
+            const response = await getJourneys(data)
+            console.log('Journey response:', response)
+          } catch (error) {
+            console.error('Failed to retrieve journeys:', error)
+          }
     }
 
     useEffect(() => {
