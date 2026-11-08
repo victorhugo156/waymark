@@ -80,7 +80,10 @@ export function Login() {
   return (
     <Container>
       <Header>
+        <Link to="/">
         <Logo src={logo} alt="Waymark" />
+        </Link>
+       
         <ContainerTitle>
           <Title>Find the way. Know the access.</Title>
           <Text>Set your needs once. We use them to rank places and flag journey problems.</Text>

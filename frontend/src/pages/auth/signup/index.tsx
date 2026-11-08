@@ -89,8 +89,10 @@ export function Signup() {
   return (
     <Container>
       <Header>
+        <Link to="/">
         <Logo src={logo} alt="Waymark" />
-
+        </Link>
+      
         <ContainerTitle>
           <Title>Join the people who keep access honest.</Title>
           <Text>Set your needs once. We use them to rank places and flag journey problems.</Text>
