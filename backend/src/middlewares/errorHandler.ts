@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import AppError from '../errors/AppError.js';
+import { ZodError } from 'zod'
 import {
   BAD_REQUEST,
   INTERNAL_SERVER_ERROR,
@@ -9,6 +10,12 @@ export default function errorHandler(error:any, _req: Request, res: Response, _n
   if (error instanceof AppError) {
     return res.status(error.statusCode).json({ message: error.message });
   }
+
+if (error instanceof ZodError) {
+  return res.status(BAD_REQUEST).json({
+    message: error.issues[0]?.message || 'Invalid data supplied'
+  })
+}
 
   if (
     error.name === 'ValidationError'
