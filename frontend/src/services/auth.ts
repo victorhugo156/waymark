@@ -1,7 +1,6 @@
 import type { SignUpFormSchema } from "../pages/auth/signup"
 import type { SigninFormSchema } from "../pages/auth/login"
 import { ApiError } from "../errors/ApiError"
-import { getAccessToken } from "@/utils/token";
 
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;

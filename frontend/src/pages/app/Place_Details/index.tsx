@@ -1,7 +1,6 @@
 import { useParams, useNavigate, createSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 
 import {
     Container,
@@ -23,20 +22,10 @@ import {
     AccessibilityInfoContentMobility,
     AccessibilityInfoContentItem,
     AccessibilityListTitle,
-    AccessibilityInfoContentPhysicalAccess,
-    ContainerCommunityReviews,
-    TitleCommunityReviews,
-    ContainerCommunityReviewsItems,
-    CommunityReviewItem,
-    CommunityReviewItemTitle,
-    CommunityReviewItemText,
     SpinnerContainer
 
 } from './styles'
 import Spinner from '@/components/spinner'
-
-import { VerifiedButton } from "@/components/verified_button";
-import { CardIssues } from "@/components/card_issues";
 import { getPlaceById } from "@/services/places";
 
 interface Place {
@@ -97,7 +86,7 @@ export function PlaceDetails() {
                 setPlace(response)
 
             } catch (error) {
-                setError('Unable to load featured places.')
+                setError('Unable to load place details.')
 
             } finally {
                 setIsLoading(false)
@@ -111,13 +100,15 @@ export function PlaceDetails() {
     }, [placeId])
 
     {
-        if (!place) {
-            return (
-                <div>
-                    <h1>Place not found</h1>
-                </div>
-            )
-        } else {
+        if (isLoading) {
+            return <Spinner label="Loading place..." />
+          } 
+          if (error) {
+            return <p role="alert">{error}</p>
+          }
+          if (!place) {
+            return <h1>Place not found</h1>
+          } else {
             return (
                 <Container>
 

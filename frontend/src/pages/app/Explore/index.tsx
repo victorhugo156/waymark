@@ -1,6 +1,4 @@
 import { InputSearch } from "@/components/input_search";
-import { Button } from "@/components/ui/button";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { CardPlaces } from "@/components/card_places";
 import {
   Main,
@@ -8,8 +6,6 @@ import {
   ExploreContainer,
   ActionContainer,
   SectionFilters,
-  FiltersTitle,
-  FiltersContainer,
   Cards
 } from "./styles";
 import { MagnifyingGlassIcon } from "@phosphor-icons/react";

@@ -5,9 +5,7 @@ import { MagnifyingGlassIcon } from '@phosphor-icons/react'
 import { useEffect, useState } from 'react'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { CardPlaces } from '@/components/card_places'
-
-import card_bondi from '@/assets/card_bondi.webp'
-import card_opera_house from '@/assets/card_opera_house.webp'
+import Spinner from "@/components/spinner";
 
 import {
   Container,
@@ -37,7 +35,7 @@ import {
   Label,
 } from './styles'
 import { Input } from '@/components/inputs/input'
-import{useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { getFeaturedPlaces } from '@/services/places'
 
 
@@ -55,7 +53,7 @@ interface Place {
     wheelchairAccessibleSeating: 'yes' | 'no' | 'unknown'
     accessibilitySource: string
     accessibilityVerified: boolean
-}
+  }
 }
 
 export function Home() {
@@ -77,35 +75,35 @@ export function Home() {
   function handlePlanJourney(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    if (!journey.trim() || !destination.trim()){
+    if (!journey.trim() || !destination.trim()) {
       return
     }
-  
+
     const params = new URLSearchParams({
       origin: journey.trim(),
       destination: destination.trim(),
     })
-  
+
     navigate(`/journey?${params.toString()}`)
   }
 
   function handleCategoryChange(category: string) {
     if (!category) return
-  
+
     navigate(`/explore?category=${encodeURIComponent(category)}`)
   }
 
-  useEffect(()=>{
+  useEffect(() => {
 
-    async function loadFeaturedPlaces(){
+    async function loadFeaturedPlaces() {
       try {
         const response = await getFeaturedPlaces()
         setPlaces(response)
-      
+
       } catch (error) {
         setError('Unable to load featured places.')
-        
-      }finally{
+
+      } finally {
         setIsLoading(false)
       }
     }
@@ -140,13 +138,13 @@ export function Home() {
           <CategoriesTitle id="categories">Explore by Categories</CategoriesTitle>
           <ContainerToggleGroupCategories>
             <ToggleGroup variant="outline" type="single" aria-labelledby="categories" onValueChange={handleCategoryChange}>
-              <ToggleGroupItem  value="attraction">Attractions</ToggleGroupItem>
-              <ToggleGroupItem  value="beach">Beaches</ToggleGroupItem>
-              <ToggleGroupItem  value="museum">Museums</ToggleGroupItem>
-              <ToggleGroupItem  value="cafes-restaurants">Cafés & Restaurants</ToggleGroupItem>
-              <ToggleGroupItem  value="park">Parks</ToggleGroupItem>
-              <ToggleGroupItem  value="zoo">Zoo</ToggleGroupItem>
-              <ToggleGroupItem  value="landmark">Landmark</ToggleGroupItem>
+              <ToggleGroupItem value="attraction">Attractions</ToggleGroupItem>
+              <ToggleGroupItem value="beach">Beaches</ToggleGroupItem>
+              <ToggleGroupItem value="museum">Museums</ToggleGroupItem>
+              <ToggleGroupItem value="cafes-restaurants">Cafés & Restaurants</ToggleGroupItem>
+              <ToggleGroupItem value="park">Parks</ToggleGroupItem>
+              <ToggleGroupItem value="zoo">Zoo</ToggleGroupItem>
+              <ToggleGroupItem value="landmark">Landmark</ToggleGroupItem>
             </ToggleGroup>
           </ContainerToggleGroupCategories>
         </CategoriesSection>
@@ -157,20 +155,25 @@ export function Home() {
             <PlacesDescription>Discover popular Sydney destinations and explore their available accessibility information.</PlacesDescription>
           </ContainerPlacesTitle>
         </PlacesSection>
-
-        <Cards>
-          {places.map((place) => (
-            <CardPlaces
-              key={place._id}
-              id={place._id}
-              image={place.imageUrl}
-              attraction_type={place.category}
-              title={place.name}
-              description={place.description}
-              accessibility={place.accessibility}
-            />
-          ))}
-        </Cards>
+        {isLoading ? (
+          <Spinner />
+        ) : error ? (
+          <p role="alert">{error}</p>
+        ) : (
+          <Cards>
+            {places.map((place) => (
+              <CardPlaces
+                key={place._id}
+                id={place._id}
+                image={place.imageUrl}
+                attraction_type={place.category}
+                title={place.name}
+                description={place.description}
+                accessibility={place.accessibility}
+              />
+            ))}
+          </Cards>
+        )}
       </Main>
       <JourneySection>
         <JourneyTag>Plan an accessible journey</JourneyTag>

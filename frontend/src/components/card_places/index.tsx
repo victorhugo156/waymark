@@ -1,6 +1,5 @@
-import { WheelchairIcon, CrossIcon, QuestionIcon } from '@phosphor-icons/react'
+import { WheelchairIcon } from '@phosphor-icons/react'
 import { FeatureButton } from '@/components/feature_button'
-import { VerifiedButton } from '@/components/verified_button'
 import vertical_logo from '@/assets/vertical_logo.webp'
 import { Link } from 'react-router-dom'
 
@@ -37,7 +36,7 @@ interface CardPlacesProps {
       }
 }
 
-export function CardPlaces({ id, image, title, description, attraction_type, rating, accessibility }: CardPlacesProps) {
+export function CardPlaces({ id, image, title, description, attraction_type, rating }: CardPlacesProps) {
     const hasImage = Boolean(image)
 
     return (

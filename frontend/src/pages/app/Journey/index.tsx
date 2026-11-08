@@ -67,7 +67,7 @@ export function Journey() {
     const destinationID: string | null = searchParams.get("destination")
 
 
-    const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<JourneyFormSchema>({
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm<JourneyFormSchema>({
         resolver: zodResolver(journeySchema),
         defaultValues: {
             origin: origin ?? "",
@@ -129,28 +129,32 @@ export function Journey() {
             </SectionJourney>
 
             <SectionJourneyResult>
-                {
-                    journeys ?
-                        <>
-                            {journeys.map((journey) => {
-                                const firstLeg = journey.legs[0]
-                                const lastLeg = journey.legs.at(-1)
+                {error ? (
+                    <p role="alert">{error}</p>
+                ) : journeys ? (
+                    <>
+                        {journeys.map((journey) => {
+                            const firstLeg = journey.legs[0]
+                            const lastLeg = journey.legs.at(-1)
 
-                                return (
-                                    <ContainerJourney key={journey.id}>
-                                        <TitleJourney>{firstLeg?.from} → {lastLeg?.to}</TitleJourney>
-                                        <TextJourney>
-                                            {firstLeg.mode} → Approx  {journey.totalDurationMinutes} minutes → {journey.interchanges} interchanges
-                                        </TextJourney>
-                                        <CardJourney journey={journey} />
-                                    </ContainerJourney>
-                                )
+                            return (
+                                <ContainerJourney key={journey.id}>
+                                    <TitleJourney>
+                                        {firstLeg?.from} → {lastLeg?.to}
+                                    </TitleJourney>
 
-                            })}
-                        </>
-                        :
-                        <p>No journey found</p>
-                }
+                                    <TextJourney>
+                                        {firstLeg?.mode} → Approx {journey.totalDurationMinutes} minutes → {journey.interchanges} interchanges
+                                    </TextJourney>
+
+                                    <CardJourney journey={journey} />
+                                </ContainerJourney>
+                            )
+                        })}
+                    </>
+                ) : (
+                    <p>No journey found</p>
+                )}
             </SectionJourneyResult>
         </Main>
     )
