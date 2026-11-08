@@ -19,7 +19,7 @@ import logo_white from '@/assets/logo_white.webp'
 import { HamburgerMenu } from '@/components/hamburger_menu/hamburger_menu'
 import { Logo, AddPlaceButton } from './styles'
 import { Button } from '@/components/ui/button'
-import { useContext, useState } from 'react'
+import { useContext, useState, useRef, useEffect } from 'react'
 import { AuthContext } from '@/contexts/AuthContext'
 import { getInitials } from '@/utils/getInitials'
 import { SignOutIcon } from '@phosphor-icons/react'
@@ -27,7 +27,47 @@ import { SignOutIcon } from '@phosphor-icons/react'
 export function DefaultLayout() {
   const { user, isAuthenticated, isAuthLoading, ContextLogout } = useContext(AuthContext)
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
+  const profileMenuRef = useRef<HTMLDivElement>(null)
+const profileButtonRef = useRef<HTMLButtonElement>(null)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!isProfileMenuOpen) return
+  
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setIsProfileMenuOpen(false)
+        profileButtonRef.current?.focus()
+      }
+    }
+  
+    document.addEventListener('keydown', handleEscape)
+  
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [isProfileMenuOpen])
+
+  useEffect(() => {
+    if (!isProfileMenuOpen) return
+  
+    function handleOutsideClick(event: PointerEvent) {
+      if (
+        profileMenuRef.current &&
+        !profileMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsProfileMenuOpen(false)
+      }
+    }
+  
+    document.addEventListener('pointerdown', handleOutsideClick)
+  
+    return () => {
+      document.removeEventListener('pointerdown', handleOutsideClick)
+    }
+  }, [isProfileMenuOpen])
+
+  
 
   async function handleLogout() {
     try {
@@ -61,8 +101,9 @@ export function DefaultLayout() {
           </AddPlaceButton>
 
           {!isAuthLoading && isAuthenticated && user && (
-            <ContainerProfileMenu>
+            <ContainerProfileMenu ref={profileMenuRef}>
               <UserProfile
+              ref={profileButtonRef}
                 type="button"
                 aria-label="Open account menu"
                 aria-expanded={isProfileMenuOpen}

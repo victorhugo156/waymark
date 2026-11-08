@@ -8,11 +8,8 @@ import {
     StationTitle,
     TransportInformation,
     ContainerAccessibilityInformation,
-    AccessibilityInformation,
-    ValidationIcon,
-    AccessibilityInformationText
 } from './styles'
-
+import { AccessibilityStatus } from '@/components/accessibility_status'
 
 interface JourneyLeg {
     from: string
@@ -57,55 +54,47 @@ export function CardJourney({ journey }: CardJourneyProps) {
 
     const steps = journey.legs;
 
-    return(
+    return (
         <>
 
-        {steps.map((leg, index) => {
-            const accessibility = {
-                wheelchairAccess: leg.wheelchairAccess,
-                lowFloorVehicle: leg.lowFloorVehicle,
-                originWheelchairAccess: leg.originWheelchairAccess,
-                destinationWheelchairAccess: leg.destinationWheelchairAccess,
+            {steps.map((leg, index) => {
+                const accessibility = {
+                    wheelchairAccess: leg.wheelchairAccess,
+                    lowFloorVehicle: leg.lowFloorVehicle,
+                    originWheelchairAccess: leg.originWheelchairAccess,
+                    destinationWheelchairAccess: leg.destinationWheelchairAccess,
+                }
+
+                return (
+                    <Container key={index}>
+                        <ContainerStepsJourney>
+                            <CircleIcon>
+                                <StepJourney>{index + 1}</StepJourney>
+                            </CircleIcon>
+
+                            <StepJourneyDescription>
+                                <StationTitle>{leg.from}</StationTitle>
+                                <TransportInformation>
+                                    {leg.line ?? leg.mode} — {leg.to}
+                                </TransportInformation>
+
+                                <ContainerAccessibilityInformation>
+                                    {Object.entries(accessibility).map(([name, value]) => (
+                                        <AccessibilityStatus
+                                            key={name}
+                                            label={labels[name as keyof typeof labels]}
+                                            status={value}
+                                        />
+                                    ))}
+                                </ContainerAccessibilityInformation>
+                            </StepJourneyDescription>
+                        </ContainerStepsJourney>
+                    </Container>
+
+                )
+            })
             }
-
-            return (
-                <Container key={index}>
-                    <ContainerStepsJourney>
-                        <CircleIcon>
-                            <StepJourney>{index + 1}</StepJourney>
-                        </CircleIcon>
-
-                        <StepJourneyDescription>
-                            <StationTitle>{leg.from}</StationTitle>
-                            <TransportInformation>
-                                {leg.line ?? leg.mode} — {leg.to}
-                            </TransportInformation>
-
-                            <ContainerAccessibilityInformation>
-                                {Object.entries(accessibility).map(([name, value]) => {
-                                    if (value === 'unknown') return null
-
-                                    return (
-                                        <AccessibilityInformation key={name}>
-                                            <ValidationIcon aria-hidden="true">
-                                                {value === 'yes' ? '✔' : '✖'}
-                                            </ValidationIcon>
-
-                                            <AccessibilityInformationText>
-                                                {labels[name as keyof typeof labels]}
-                                            </AccessibilityInformationText>
-                                        </AccessibilityInformation>
-                                    )
-                                })}
-                            </ContainerAccessibilityInformation>
-                        </StepJourneyDescription>
-                    </ContainerStepsJourney>
-                </Container>
-
-            )
-        })
-        }
-    </>
+        </>
 
 
     )

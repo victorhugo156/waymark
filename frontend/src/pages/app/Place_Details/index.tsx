@@ -1,5 +1,5 @@
 import { useParams, useNavigate, createSearchParams } from "react-router-dom";
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
@@ -68,16 +68,16 @@ export function PlaceDetails() {
     const [error, setError] = useState<string | null>(null)
 
 
-    function handlePlanJourney(){
-        if(!placeId)  return
-            
+    function handlePlanJourney() {
+        if (!placeId) return
+
         navigate({
             pathname: "/journey",
             search: `?${createSearchParams({
-              destination: placeId,
+                destination: placeId,
             })}`,
-          });
-        
+        });
+
     }
 
     useEffect(() => {
@@ -162,7 +162,11 @@ export function PlaceDetails() {
                         <AccessibilityInfo>
                             <HeaderAccessibilityInfo>
                                 <TitleAccessibilityInfo>Access summary</TitleAccessibilityInfo>
-                                <VerifiedButton>Verified</VerifiedButton>
+                                {place.accessibility.accessibilityVerified ? (
+                                    <span>Accessibility information verified</span>
+                                ) : (
+                                    <span>Accessibility information not verified</span>
+                                )}
                             </HeaderAccessibilityInfo>
 
                             <AccessibilityListTitle>Mobility</AccessibilityListTitle>
@@ -171,55 +175,55 @@ export function PlaceDetails() {
                                     {place.accessibility.wheelchairAccessibleEntrance === 'yes'
                                         ? '✓ Accessible entrance'
                                         : place.accessibility.wheelchairAccessibleEntrance === 'no'
-                                        ? '✕ No accessible entrance reported'
-                                        : '? Entrance accessibility not confirmed'
+                                            ? '✕ No accessible entrance reported'
+                                            : '? Entrance accessibility not confirmed'
                                     }
                                 </AccessibilityInfoContentItem>
                                 <AccessibilityInfoContentItem>
                                     {
                                         place.accessibility.wheelchairAccessibleRestroom === "yes"
-                                        ? '✓ Accessible restroom'
-                                        : place.accessibility.wheelchairAccessibleRestroom === 'no'
-                                        ? '✕ No accessible restroom reported'
-                                        : '? Restroom accessibility not confirmed'
+                                            ? '✓ Accessible restroom'
+                                            : place.accessibility.wheelchairAccessibleRestroom === 'no'
+                                                ? '✕ No accessible restroom reported'
+                                                : '? Restroom accessibility not confirmed'
                                     }
 
                                 </AccessibilityInfoContentItem>
                                 <AccessibilityInfoContentItem>
-                                {
+                                    {
                                         place.accessibility.wheelchairAccessibleParking === "yes"
-                                        ? '✓ Accessible parking'
-                                        : place.accessibility.wheelchairAccessibleParking === 'no'
-                                        ? '✕ No accessible parking reported'
-                                        : '? Parking accessibility not confirmed'
+                                            ? '✓ Accessible parking'
+                                            : place.accessibility.wheelchairAccessibleParking === 'no'
+                                                ? '✕ No accessible parking reported'
+                                                : '? Parking accessibility not confirmed'
                                     }
                                 </AccessibilityInfoContentItem>
                                 <AccessibilityInfoContentItem>
-                                {
+                                    {
                                         place.accessibility.wheelchairAccessibleSeating === "yes"
-                                        ? '✓ Accessible seating'
-                                        : place.accessibility.wheelchairAccessibleSeating === 'no'
-                                        ? '✕ No accessible seating reported'
-                                        : '? Seating accessibility not confirmed'
+                                            ? '✓ Accessible seating'
+                                            : place.accessibility.wheelchairAccessibleSeating === 'no'
+                                                ? '✕ No accessible seating reported'
+                                                : '? Seating accessibility not confirmed'
                                     }
                                 </AccessibilityInfoContentItem>
                             </AccessibilityInfoContentMobility>
 
 
-                            <AccessibilityListTitle>Additional physical access</AccessibilityListTitle>
+                            {/* <AccessibilityListTitle>Additional physical access</AccessibilityListTitle>
                             <AccessibilityInfoContentPhysicalAccess>
                                 <AccessibilityInfoContentItem>✓ Lift / elevator</AccessibilityInfoContentItem>
                                 <AccessibilityInfoContentItem>⚠ Stairs present</AccessibilityInfoContentItem>
                                 <AccessibilityInfoContentItem>? Ramp information unavailable</AccessibilityInfoContentItem>
-                            </AccessibilityInfoContentPhysicalAccess>
+                            </AccessibilityInfoContentPhysicalAccess> */}
 
-                            <Button variant="outline-primary">Update access info</Button>
+                            {/* <Button variant="outline-primary">Update access info</Button> */}
                         </AccessibilityInfo>
                     </AccessibilitySection>
 
-                    <CardIssues title="Wynyard — lift reported slow today" text="Lift is operating, but additional waiting time may be required. This may affect the step-free route." />
+                    {/* <CardIssues title="Wynyard — lift reported slow today" text="Lift is operating, but additional waiting time may be required. This may affect the step-free route." /> */}
 
-                    <ContainerCommunityReviews>
+                    {/* <ContainerCommunityReviews>
                         <TitleCommunityReviews>Community reviews</TitleCommunityReviews>
                         <ContainerCommunityReviewsItems>
                             <CommunityReviewItem>
@@ -235,7 +239,7 @@ export function PlaceDetails() {
                                 <CommunityReviewItemText>Lift is operating, but additional waiting time may be required. This may affect the step-free route.</CommunityReviewItemText>
                             </CommunityReviewItem>
                         </ContainerCommunityReviewsItems>
-                    </ContainerCommunityReviews>
+                    </ContainerCommunityReviews> */}
 
                     {isLoading && <SpinnerContainer><Spinner label="Signin you up..." /></SpinnerContainer>}
                 </Container>

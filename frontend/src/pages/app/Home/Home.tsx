@@ -69,11 +69,14 @@ export function Home() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  function handleExplore() {
+  function handleExplore(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
     navigate(`/explore?search=${encodeURIComponent(search.trim())}`)
   }
 
-  function handlePlanJourney() {
+  function handlePlanJourney(event: React.SubmitEvent<HTMLFormElement>) {
+    event.preventDefault()
+
     if (!journey.trim() || !destination.trim()){
       return
     }
@@ -125,9 +128,9 @@ export function Home() {
             </HeroDescription>
           </Content>
 
-          <ActionContainer>
+          <ActionContainer onSubmit={handleExplore}>
             <InputSearch icon={MagnifyingGlassIcon} id="search" placeholder="Search for a place" type="text" value={search} name="search" autoComplete="off" onChange={(event) => setSearch(event.target.value)} />
-            <Button onClick={handleExplore}>Explore</Button>
+            <Button type="submit">Explore</Button>
           </ActionContainer>
         </HeroContent>
       </HeroSection>
@@ -173,14 +176,14 @@ export function Home() {
         <JourneyTag>Plan an accessible journey</JourneyTag>
         <JourneyTitle>Understand access on the way</JourneyTitle>
         <JourneyDescription>NSW Transport calculates the path. Waymark explains stations, lifts and transfers, not turn-by-turn maps.</JourneyDescription>
-        <ContainerJourneyForm>
+        <ContainerJourneyForm onSubmit={handlePlanJourney}>
           <Label htmlFor="journey">From</Label>
           <Input id="journey" placeholder="Current location or starting point" type="text" value={journey} name="journey" autoComplete="off" onChange={(event) => setJourney(event.target.value)} />
 
           <Label htmlFor="destination">To</Label>
           <Input id="destination" placeholder="Destination" type="text" value={destination} name="destination" autoComplete="off" onChange={(event) => setDestination(event.target.value)} />
 
-          <Button onClick={handlePlanJourney}>Plan accessible journey</Button>
+          <Button type="submit">Plan accessible journey</Button>
 
         </ContainerJourneyForm>
 

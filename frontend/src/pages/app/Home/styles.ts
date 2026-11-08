@@ -120,7 +120,7 @@ line-height: 1.5;
 
 `
 
-export const ActionContainer = styled.div`
+export const ActionContainer = styled.form`
 width: 100%;
 display: flex;
 flex-direction: column;
@@ -266,7 +266,7 @@ line-height: 1.5;
 
 `
 
-export const ContainerJourneyForm = styled.div`
+export const ContainerJourneyForm = styled.form`
 width: 100%;
 display: flex;
 flex-direction: column;

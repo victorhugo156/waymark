@@ -76,14 +76,13 @@ export function Explore() {
     <Main>
       <ExploreContainer>
         <Title>Explore Sydney</Title>
-        <ActionContainer>
+        <ActionContainer  as="form" onSubmit={(event) => event.preventDefault()}>
           <InputSearch icon={MagnifyingGlassIcon} id="search" placeholder="Search for a place" type="text" value={search} name="search" autoComplete="off" onChange={(event) => setSearch(event.target.value)} />
-          <Button>Explore</Button>
         </ActionContainer>
       </ExploreContainer>
 
       <SectionFilters>
-        <FiltersTitle>Filters</FiltersTitle>
+        {/* <FiltersTitle>Filters</FiltersTitle>
         <FiltersContainer>
           <ToggleGroup variant="outline" type="multiple" aria-labelledby="access-preferences" >
             <ToggleGroupItem value="transport">Wheelchair-accessible transport</ToggleGroupItem>
@@ -91,7 +90,7 @@ export function Explore() {
             <ToggleGroupItem value="hearing">Hearing information</ToggleGroupItem>
             <ToggleGroupItem value="quiet">Quiet environments</ToggleGroupItem>
           </ToggleGroup>
-        </FiltersContainer>
+        </FiltersContainer> */}
 
         {isLoading ? (
           <Spinner />

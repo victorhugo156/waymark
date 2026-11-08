@@ -137,7 +137,7 @@ export const AccessibilityInformationText = styled.p`
 
 font-size: ${props => props.theme.fontSizes.xs};
 font-weight: ${props => props.theme.fontWeights.medium};
-color: ${props => props.theme.colors.green};
+color: ${props => props.theme.colors.foreground};
 
 line-height: 1.2;
 

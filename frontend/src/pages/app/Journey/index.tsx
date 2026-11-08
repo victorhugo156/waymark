@@ -79,7 +79,6 @@ export function Journey() {
         try {
             const response = await getJourneys(data)
             setJourneys(response.journey)
-            reset()
         } catch (error) {
             console.error('Failed to retrieve journeys:', error)
         }
@@ -88,7 +87,9 @@ export function Journey() {
     useEffect(() => {
 
         async function getDestination() {
-            if (!destinationID) {
+            const isMongoId = /^[0-9a-fA-F]{24}$/.test(destinationID ?? '')
+
+            if (!destinationID || !isMongoId) {
                 return
             }
 
@@ -97,7 +98,7 @@ export function Journey() {
                 setValue('destination', response.name, { shouldValidate: true, })
 
             } catch (error) {
-                setError('Unable to load featured places.')
+                setError('Unable to load destination details.')
             }
         }
 
