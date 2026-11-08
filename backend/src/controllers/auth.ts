@@ -7,6 +7,7 @@ import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 import UnauthorisedError from "../errors/Unauthorised"
 import ConflictError from "../errors/ConflictError"
 import { randomUUID } from 'node:crypto';
+import BadRequestError from "../errors/BadRequestError"
 
 
 
@@ -180,27 +181,76 @@ export async function refreshedToken(req: Request, res: Response, next: NextFunc
 
   export async function logout(req: Request, res: Response, next: NextFunction){
 
-    const userId = req.user._id
+    const jwt_refresh_secret = process.env.JWT_REFRESH_SECRET || ""
+
     try{
+      const { refreshToken } = req.cookies
 
-        await User.findByIdAndUpdate(userId, {refreshToken: null})
 
+      if (!refreshToken) {
         res.clearCookie(
-            'refreshToken',
-            {
-                httpOnly: true,
-                secure: isProduction,
-                sameSite: isProduction ? 'none' : 'lax',
-            }
-        )
-
-        res.status(204).send()
-        
-    }catch(error){
-        next(error)
+          'refreshToken',
+          {
+              httpOnly: true,
+              secure: isProduction,
+              sameSite: isProduction ? 'none' : 'lax',
+          }
+      )
+  
+      return res.status(204).send()
     }
+  
+    const payload = jwt.verify(refreshToken, jwt_refresh_secret );
+  
+    if (typeof payload === "string") {
+      throw new UnauthorisedError("Unauthorized")
+    }
+    const { _id } = payload
+  
+    const user = await User.findById(_id).select('+refreshToken');
+    
+    if (!user || !user.refreshToken) {
+      res.clearCookie('refreshToken', {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: isProduction ? 'none' : 'lax',
+      })
+  
+      return res.status(204).send()
+    }
+  
+    const isRefreshTokenValid = await compare(refreshToken, user.refreshToken);
+  
+    if (!isRefreshTokenValid) {
+      res.clearCookie('refreshToken', {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: isProduction ? 'none' : 'lax',
+      })
+  
+      return res.status(204).send()
+    }
+
+    user.refreshToken = null
+    await user.save()
+
+    res.clearCookie('refreshToken', {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
+    })
+
+    return res.status(204).send()
+  }catch(error){
+    if(error instanceof JsonWebTokenError){
+      res.clearCookie('refreshToken', {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: isProduction ? 'none' : 'lax',
+      })
+      return res.status(204).send()
+
+    }
+        return next(error)
   }
-
-
-
-
+}

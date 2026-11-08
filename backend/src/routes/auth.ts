@@ -2,7 +2,6 @@ import { Router } from "express";
 import { signin, signup, refreshedToken, logout } from "../controllers/auth";
 import validate from "../middlewares/validate";
 import { z } from "zod";
-import { AuthMiddleware } from "../middlewares/authMiddleware";
 
 const authRouter = Router();
 
@@ -30,7 +29,7 @@ authRouter.post('/signup', validate(signupSchema), signup)
 
 authRouter.post('/refresh', refreshedToken)
 
-authRouter.post('/logout', AuthMiddleware, logout)
+authRouter.post('/logout', logout)
 
 
 export default authRouter;
