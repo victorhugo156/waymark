@@ -1,7 +1,6 @@
 import { Input } from "@/components/inputs/input"
 import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
-import { mockJourney } from "@/utils/mockJourney"
 import { getPlaceById } from "@/services/places"
 import { getJourneys } from "@/services/journeys"
 import { z } from "zod"
@@ -62,6 +61,8 @@ export function Journey() {
     const [error, setError] = useState<string | null>(null)
 
     const [searchParams] = useSearchParams()
+    const origin = searchParams.get('origin')
+    const destination = searchParams.get('destination')
 
     const destinationID: string | null = searchParams.get("destination")
 
@@ -69,8 +70,8 @@ export function Journey() {
     const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<JourneyFormSchema>({
         resolver: zodResolver(journeySchema),
         defaultValues: {
-            origin: "",
-            destination: "",
+            origin: origin ?? "",
+            destination: destination ?? "",
         }
     })
 

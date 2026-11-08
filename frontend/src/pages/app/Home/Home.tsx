@@ -70,7 +70,26 @@ export function Home() {
   const [error, setError] = useState<string | null>(null)
 
   function handleExplore() {
-    navigate('/explore')
+    navigate(`/explore?search=${encodeURIComponent(search.trim())}`)
+  }
+
+  function handlePlanJourney() {
+    if (!journey.trim() || !destination.trim()){
+      return
+    }
+  
+    const params = new URLSearchParams({
+      origin: journey.trim(),
+      destination: destination.trim(),
+    })
+  
+    navigate(`/journey?${params.toString()}`)
+  }
+
+  function handleCategoryChange(category: string) {
+    if (!category) return
+  
+    navigate(`/explore?category=${encodeURIComponent(category)}`)
   }
 
   useEffect(()=>{
@@ -117,12 +136,14 @@ export function Home() {
         <CategoriesSection>
           <CategoriesTitle id="categories">Explore by Categories</CategoriesTitle>
           <ContainerToggleGroupCategories>
-            <ToggleGroup variant="outline" type="multiple" aria-labelledby="categories" >
-              <ToggleGroupItem  value="attractions">Attractions</ToggleGroupItem>
-              <ToggleGroupItem  value="beaches">Beaches</ToggleGroupItem>
-              <ToggleGroupItem  value="museums">Museums</ToggleGroupItem>
+            <ToggleGroup variant="outline" type="single" aria-labelledby="categories" onValueChange={handleCategoryChange}>
+              <ToggleGroupItem  value="attraction">Attractions</ToggleGroupItem>
+              <ToggleGroupItem  value="beach">Beaches</ToggleGroupItem>
+              <ToggleGroupItem  value="museum">Museums</ToggleGroupItem>
               <ToggleGroupItem  value="cafes-restaurants">Cafés & Restaurants</ToggleGroupItem>
-              <ToggleGroupItem  value="parks">Parks</ToggleGroupItem>
+              <ToggleGroupItem  value="park">Parks</ToggleGroupItem>
+              <ToggleGroupItem  value="zoo">Zoo</ToggleGroupItem>
+              <ToggleGroupItem  value="landmark">Landmark</ToggleGroupItem>
             </ToggleGroup>
           </ContainerToggleGroupCategories>
         </CategoriesSection>
@@ -159,7 +180,7 @@ export function Home() {
           <Label htmlFor="destination">To</Label>
           <Input id="destination" placeholder="Destination" type="text" value={destination} name="destination" autoComplete="off" onChange={(event) => setDestination(event.target.value)} />
 
-          <Button>Plan accessible journey</Button>
+          <Button onClick={handlePlanJourney}>Plan accessible journey</Button>
 
         </ContainerJourneyForm>
 

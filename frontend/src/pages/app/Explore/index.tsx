@@ -14,6 +14,7 @@ import {
 } from "./styles";
 import { MagnifyingGlassIcon } from "@phosphor-icons/react";
 import { useState, useEffect } from "react";
+import { useSearchParams } from 'react-router-dom'
 import { getPlaces } from "@/services/places";
 import Spinner  from "@/components/spinner";
 
@@ -37,14 +38,25 @@ interface Place {
 
 export function Explore() {
 
-  const [search, setSearch] = useState("");
+  const [searchParams] = useSearchParams()
+  const [search, setSearch] = useState(searchParams.get('search') ?? '');
   const [places, setPlaces] = useState<Place[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  const category = searchParams.get('category') ?? ''
+
   const filteredPlaces = places.filter((place) => {
-    return place.name.toLowerCase().includes(search.toLowerCase().trim())
+    const matchesSearch = place.name
+      .toLowerCase()
+      .includes(search.toLowerCase().trim())
+  
+    const matchesCategory = !category || place.category === category
+  
+    return matchesSearch && matchesCategory
   })
+
+
 
   useEffect(() => {
     const loadPlaces = async () => {
@@ -59,8 +71,6 @@ export function Explore() {
     }
     loadPlaces()
   }, [])
-
-
 
   return (
     <Main>
