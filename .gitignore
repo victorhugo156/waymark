@@ -18,9 +18,13 @@ backend/dist/
 # Local DB seed scripts (keep off GitHub)
 backend/src/scripts/
 
-# Local seed photos for DB population (keep favicon only)
+# Local seed photos for DB population.
+# JPG originals stay off GitHub. Optimized WebP copies and the favicon are tracked.
 frontend/public/*
 !frontend/public/waymark_favicon.webp
+!frontend/public/*/
+frontend/public/*/*
+!frontend/public/*/*.webp
 
 # Python
 __pycache__/
